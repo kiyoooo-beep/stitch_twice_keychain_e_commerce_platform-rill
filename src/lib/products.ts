@@ -9,74 +9,80 @@ export interface ProductItem {
 
 const productMetadata: Record<string, Omit<ProductItem, 'id' | 'image'>> = {
   'Product 1.jpg': {
-    name: 'Red Apple Charm',
-    price: 'Rp20.000',
-    badge: 'BESTIE FAV',
-    category: 'Charms',
-  },
-  'Product 2.jpg': {
-    name: 'Moonlit Cloud Keychain',
-    price: 'Rp18.000',
+    name: 'Red Apple Charm Bag',
+    price: 'Rp25.000',
     badge: 'POPULAR',
     category: 'Charms',
   },
+  'Product 2.jpg': {
+    name: 'Clay Keychain Custom',
+    price: 'Rp15.000',
+    badge: '',
+    category: 'Charms',
+  },
   'Product 3.jpg': {
-    name: 'Galaxy Fish Charm',
-    price: 'Rp28.000',
+    name: 'Fish Keychain',
+    price: 'Rp25.000',
     badge: '',
     category: 'Charms',
   },
   'Product 4.jpg': {
-    name: 'Starlight Charm',
-    price: 'Rp22.000',
-    badge: 'NEW',
+    name: 'Miawberry Crystal Keychain',
+    price: 'Rp25.000',
+    badge: '',
     category: 'Charms',
   },
   'Product 5.jpg': {
-    name: 'Miracle of Charm',
-    price: 'Rp29.000',
-    badge: 'EXCLUSIVE',
+    name: 'Crownberries crystal Charm',
+    price: 'Rp30.000',
+    badge: 'BESTIE FAV',
     category: 'Charms',
   },
   'Product 6.jpg': {
-    name: 'Cosmic Ribbon Keychain',
-    price: 'Rp24.000',
+    name: 'Buddy Brownie Series Keychain',
+    price: 'Rp20.000',
     badge: '',
     category: 'Charms',
   },
   'Product 7.jpg': {
-    name: 'Kawaii Heart Tag',
-    price: 'Rp19.000',
+    name: 'Black Cat & Bunny Charm',
+    price: 'Rp20.000',
     badge: '',
     category: 'Charms',
   },
   'Product 8.jpg': {
-    name: 'Dreamy Cloud Charm',
-    price: 'Rp21.000',
+    name: 'Dust Bunny Charm',
+    price: 'Rp20.000',
     badge: '',
     category: 'Charms',
   },
   'Product 9.jpg': {
-    name: 'Galaxy Sparkle Keychain',
-    price: 'Rp26.000',
+    name: 'Paw Crochet Keychain',
+    price: 'Rp15.000',
     badge: '',
     category: 'Charms',
   },
   'Product 10.jpg': {
-    name: 'Sunset Jelly Charm',
-    price: 'Rp23.000',
-    badge: '',
+    name: 'Keychain rock n red',
+    price: 'Rp25.000',
+    badge: 'EXCLUSIVE',
     category: 'Charms',
   },
   'Product 11.jpg': {
-    name: 'Sugar Pop Star',
-    price: 'Rp27.000',
+    name: 'Pink Yellow baby Bag Charm',
+    price: 'Rp30.000',
     badge: '',
     category: 'Charms',
   },
   'Product 12.jpg': {
-    name: 'Aurora Glow Pendant',
-    price: 'Rp30.000',
+    name: 'Creamy Crystal Charm',
+    price: 'Rp25.000',
+    badge: 'NEW',
+    category: 'Charms',
+  },
+  'Product 13.jpg': {
+    name: 'Alphabet Coloring Charm',
+    price: 'Rp20.000',
     badge: '',
     category: 'Charms',
   },
@@ -114,11 +120,6 @@ export async function getProducts(): Promise<ProductItem[]> {
   const payload = await listResponse.json();
   const objects = Array.isArray(payload) ? payload : payload?.data || [];
 
-  // --- BAGIAN DEBUGGING ---
-  console.log("=== CEK DATA SUPABASE ===");
-  console.log("File Yang Ditemukan Di Storage:", objects.map((o: any) => o.name));
-  // -------------------------
-
   const allowedFiles = new Set(Object.keys(productMetadata));
 
   const products = objects
@@ -138,6 +139,5 @@ export async function getProducts(): Promise<ProductItem[]> {
       };
     });
 
-  console.log("Total Produk Yang Cocok Dan Akan Ditampilkan:", products.length);
   return products;
 }

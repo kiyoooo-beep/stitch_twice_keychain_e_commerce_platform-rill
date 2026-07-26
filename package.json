@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@astrojs/node": "^8.3.4",
+    "@supabase/supabase-js": "^2.110.8",
     "astro": "^4.0.0",
     "autoprefixer": "^10.4.16",
     "nodemailer": "^9.0.3",
