@@ -1,0 +1,297 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Twice Keychain - Navigation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,700;1,400&amp;family=Quicksand:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#1a4d5a",
+                        "inverse-surface": "#30312c",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#f0eee6",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#eae8e0",
+                        "on-secondary": "#ffffff",
+                        "outline": "#837377",
+                        "primary-fixed": "#ffd9e3",
+                        "on-tertiary-fixed-variant": "#2a4f2a",
+                        "secondary-fixed-dim": "#9ecede",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#baeafa",
+                        "pastel-yellow": "#FFF5BA",
+                        "on-primary-fixed-variant": "#6a364a",
+                        "surface": "#fbf9f1",
+                        "surface-variant": "#e4e3db",
+                        "on-secondary-fixed": "#001f27",
+                        "on-error": "#ffffff",
+                        "primary": "#864d61",
+                        "on-tertiary-fixed": "#002204",
+                        "on-tertiary-container": "#385e37",
+                        "on-background": "#1b1c17",
+                        "secondary-container": "#b7e7f7",
+                        "pastel-green": "#C1E1C1",
+                        "surface-container-highest": "#e4e3db",
+                        "on-surface-variant": "#514347",
+                        "surface-bright": "#fbf9f1",
+                        "on-secondary-container": "#3a6977",
+                        "background": "#fbf9f1",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#ffb7ce",
+                        "on-primary-container": "#7b4458",
+                        "tertiary-container": "#abd6a5",
+                        "on-surface": "#1b1c17",
+                        "inverse-primary": "#fab3ca",
+                        "error": "#ba1a1a",
+                        "secondary": "#356572",
+                        "tertiary": "#41673f",
+                        "on-primary-fixed": "#360b1e",
+                        "surface-container-low": "#f5f4ec",
+                        "outline-variant": "#d5c2c6",
+                        "inverse-on-surface": "#f3f1e9",
+                        "coral-red": "#FF9B9B",
+                        "tertiary-fixed-dim": "#a7d2a1",
+                        "primary-fixed-dim": "#fab3ca",
+                        "ink-blue": "#4A5568",
+                        "surface-tint": "#864d61",
+                        "tertiary-fixed": "#c2eebb",
+                        "surface-dim": "#dcdad2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "gutter": "16px",
+                        "container-max": "1200px",
+                        "base": "8px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Nunito Sans"],
+                        "headline-lg": ["Quicksand"],
+                        "display-hero": ["Quicksand"],
+                        "label-caps": ["Quicksand"],
+                        "headline-md": ["Quicksand"],
+                        "price-display": ["Quicksand"],
+                        "headline-lg-mobile": ["Quicksand"],
+                        "body-lg": ["Nunito Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "display-hero": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "price-display": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ffb7ce;
+            border-radius: 10px;
+        }
+        .floating-star {
+            animation: twinkle 3s ease-in-out infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.1) rotate(15deg); }
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-surface overflow-hidden">
+<!-- Blurred Background (Home Page Proxy) -->
+<main class="fixed inset-0 z-0 blur-md pointer-events-none scale-105">
+<header class="flex justify-between items-center px-margin-mobile py-6">
+<img alt="Logo" class="h-10 w-10 rounded-full" src="https://lh3.googleusercontent.com/aida/AP1WRLvindyOa4RV9g4Op5oAFTx-CgpUyvzP4AdT3PFMtfQLAMaed46r1oenoQlqxFo4VbSCyBFEpL5povwab_206K6MjMRsGq8iTKjUuXDtPwkZ4aTqHi3kSvD0DUt7qcgedw6OJpSyiTfKIa4C9IMKz2fsRP0rckLMlDJoNdeBz-FLpvA9joTSYbWHRSezQXXrOHKoxe4XCT-iwX1mV-iioM1_B2yMFtoP8Sydkx0uqrN9s5g5xulKXFNU5A">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary">search</span>
+<span class="material-symbols-outlined text-primary">shopping_cart</span>
+</div>
+</header>
+<section class="px-margin-mobile mt-10">
+<div class="h-64 w-full bg-primary-container rounded-xl mb-6"></div>
+<div class="grid grid-cols-2 gap-4">
+<div class="h-40 bg-surface-container rounded-xl"></div>
+<div class="h-40 bg-surface-container rounded-xl"></div>
+</div>
+</section>
+</main>
+<!-- Overlay Backdrop -->
+<div class="fixed inset-0 bg-on-surface/20 z-40 backdrop-blur-sm transition-opacity duration-300 opacity-100" id="backdrop"></div>
+<!-- Side Navigation Drawer -->
+<aside class="fixed top-0 left-0 h-full w-[85%] max-w-[380px] bg-surface-container-lowest z-50 shadow-[20px_0_60px_-15px_rgba(0,0,0,0.1)] flex flex-col transition-transform duration-500 ease-out translate-x-0" id="side-drawer">
+<!-- Header Section -->
+<div class="p-8 bg-gradient-to-br from-primary-container/20 to-secondary-container/20 relative overflow-hidden">
+<div class="absolute -top-4 -right-4 w-24 h-24 bg-pastel-yellow rounded-full blur-2xl opacity-40"></div>
+<div class="flex items-center gap-4 relative z-10">
+<div class="w-16 h-16 rounded-full border-4 border-white shadow-lg overflow-hidden bg-white">
+<img class="w-full h-full object-cover" data-alt="A cute, soft-style digital illustration of a smiling anime-inspired character avatar with pastel pink hair and big sparkly eyes, wearing a mint green hoodie, centered in a circular frame against a creamy pastel background, representing a playful e-commerce profile image." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkO5sWmMpxC01_5KBihSeWh7JjW-Vn5n1cIMv1X008iS-qLTR9d2f6pBuy87YIZzuX9iR7OoKv4k103GQJZ3kXtmyjoWVT7OW46HLqkzizz0Pi1bw13-jDnSOtNJLh3gmTnR2vEUMk6cs58bOsgnuDxB_zZizb0tHpihPH9WU7CRfRKWiLNxg6oGu_O4RDl4AT7_a8-Rf1do_GVQ2joBWE4KgF9vcOm6QIRZ53ybBVSNGp8lqd5d0-">
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-primary-container">Hello, Cutie!</h2>
+<p class="font-body-md text-on-surface-variant text-sm flex items-center gap-1">
+                        Member since 2024 <span class="material-symbols-outlined text-[14px] text-primary" data-weight="fill">verified</span>
+</p>
+</div>
+</div>
+<button class="absolute top-6 right-6 p-2 rounded-full hover:bg-white/50 transition-colors active:scale-95" onclick="toggleMenu()">
+<span class="material-symbols-outlined text-on-surface-variant">close</span>
+</button>
+</div>
+<!-- Navigation Links Container -->
+<nav class="flex-1 overflow-y-auto px-6 py-4 custom-scrollbar">
+<!-- Category Section -->
+<div class="mb-8">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant/60 uppercase mb-4 px-2">Ecosystem</h3>
+<div class="space-y-1">
+<a class="flex items-center justify-between p-3 rounded-xl hover:bg-primary-container/10 group transition-all duration-200" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">home</span>
+<span class="font-headline-md text-headline-md text-primary">Home</span>
+</div>
+</a>
+<a class="flex items-center justify-between p-3 rounded-xl hover:bg-secondary-container/10 group transition-all duration-200" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">grid_view</span>
+<span class="font-headline-md text-headline-md">Shop All</span>
+</div>
+<span class="material-symbols-outlined text-pastel-yellow floating-star" data-weight="fill">star</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-xl bg-primary-container/20 shadow-sm transition-all duration-200" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-weight="fill">auto_awesome</span>
+<span class="font-headline-md text-headline-md text-on-primary-container font-bold">New Arrivals</span>
+</div>
+<span class="px-2 py-0.5 bg-primary rounded-full text-[10px] text-white font-bold uppercase tracking-wider">Hot</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-xl hover:bg-primary-container/10 group transition-all duration-200" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">favorite</span>
+<span class="font-headline-md text-headline-md">Best Sellers</span>
+</div>
+</a>
+</div>
+</div>
+<!-- Shop Categories Section -->
+<div class="mb-8">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant/60 uppercase mb-4 px-2">Collections</h3>
+<div class="space-y-1">
+<a class="flex items-center justify-between p-3 rounded-xl hover:bg-pastel-green/20 group transition-all duration-200" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">phone_iphone</span>
+<span class="font-body-lg text-body-lg">Phone Charms</span>
+</div>
+<span class="material-symbols-outlined text-pastel-green floating-star" style="animation-delay: 1s;">spark</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-xl hover:bg-primary-container/10 group transition-all duration-200" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">key</span>
+<span class="font-body-lg text-body-lg">Keychains</span>
+</div>
+</a>
+</div>
+</div>
+<!-- Account Section -->
+<div class="mb-8">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant/60 uppercase mb-4 px-2">Account</h3>
+<div class="space-y-1">
+<a class="flex items-center gap-3 p-3 rounded-xl hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-on-surface-variant">shopping_bag</span>
+<span class="font-body-lg text-body-lg">My Orders</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-xl hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-on-surface-variant">favorite_border</span>
+<span class="font-body-lg text-body-lg">Wishlist</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-xl hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+<span class="font-body-lg text-body-lg">Profile Settings</span>
+</a>
+</div>
+</div>
+<!-- Social Section -->
+<div class="mb-12">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant/60 uppercase mb-4 px-2">Support</h3>
+<div class="space-y-1">
+<a class="flex items-center gap-3 p-3 rounded-xl hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-on-surface-variant">chat_bubble</span>
+<span class="font-body-lg text-body-lg">Contact Us</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-xl hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-on-surface-variant">info</span>
+<span class="font-body-lg text-body-lg">About Twice Keychain</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Branding Footer -->
+<div class="p-8 mt-auto flex flex-col items-center gap-4 bg-surface-container-low border-t border-surface-variant/50">
+<img alt="Twice Keychain Logo" class="h-12 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLvindyOa4RV9g4Op5oAFTx-CgpUyvzP4AdT3PFMtfQLAMaed46r1oenoQlqxFo4VbSCyBFEpL5povwab_206K6MjMRsGq8iTKjUuXDtPwkZ4aTqHi3kSvD0DUt7qcgedw6OJpSyiTfKIa4C9IMKz2fsRP0rckLMlDJoNdeBz-FLpvA9joTSYbWHRSezQXXrOHKoxe4XCT-iwX1mV-iioM1_B2yMFtoP8Sydkx0uqrN9s5g5xulKXFNU5A">
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+</div>
+</div>
+<p class="text-[10px] text-on-surface-variant/40 font-bold uppercase tracking-widest">© 2024 TWICE KEYCHAIN CO.</p>
+</div>
+</aside>
+<script>
+        function toggleMenu() {
+            const drawer = document.getElementById('side-drawer');
+            const backdrop = document.getElementById('backdrop');
+            
+            if (drawer.style.transform === 'translateX(0px)') {
+                drawer.style.transform = 'translateX(-100%)';
+                backdrop.style.opacity = '0';
+                setTimeout(() => backdrop.classList.add('hidden'), 300);
+            } else {
+                backdrop.classList.remove('hidden');
+                setTimeout(() => {
+                    drawer.style.transform = 'translateX(0px)';
+                    backdrop.style.opacity = '1';
+                }, 10);
+            }
+        }
+
+        // Initialize state
+        document.addEventListener('DOMContentLoaded', () => {
+            const drawer = document.getElementById('side-drawer');
+            // Starting state is open for the generation but could be hidden
+            // drawer.style.transform = 'translateX(0px)';
+        });
+
+        // Close when clicking backdrop
+        document.getElementById('backdrop').addEventListener('click', toggleMenu);
+    </script>
+</body></html>

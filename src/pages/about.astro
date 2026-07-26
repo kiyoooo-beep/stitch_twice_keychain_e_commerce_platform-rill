@@ -1,0 +1,58 @@
+---
+// INI DIA IMPORT YANG BENAR SESUAI PROJECT KAMU!
+import PageLayout from '@/layouts/PageLayout.astro';
+
+// Ambil Data API
+const response = await fetch(new URL('/api/about-us', Astro.url));
+const aboutData = await response.json();
+---
+
+<!-- BUNGKUS DENGAN PAGELAYOUT BAWAAN WEB KAMU -->
+<PageLayout title="About Us - TWICE KEYCHAIN">
+  
+  <div class="bg-[#FFFDF5] w-full min-h-[85vh] flex items-center justify-center p-6 text-[#2F3E46] relative overflow-hidden -mt-10">
+    
+    <div class="max-w-3xl w-full bg-white rounded-3xl shadow-xl border-2 border-[#ffe6ed] p-8 md:p-12 text-center relative overflow-hidden z-10 my-8">
+      
+      <!-- Ornamen Lingkaran Aesthetic -->
+      <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#ffe6ed] rounded-full opacity-50 blur-xl z-0"></div>
+      <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-[#F46B8D] rounded-full opacity-10 blur-xl z-0"></div>
+
+      <div class="relative z-10">
+        <span class="inline-block bg-[#F46B8D] text-white text-xs font-bold px-4 py-1.5 rounded-full mb-6 shadow-sm tracking-wider uppercase">
+          Est. {aboutData.foundedYear}
+        </span>
+        
+        <h2 class="text-4xl md:text-5xl font-extrabold text-[#F46B8D] mb-3 tracking-tight font-serif" style="font-family: 'Quicksand', sans-serif;">
+          {aboutData.storeName}
+        </h2>
+        <p class="text-lg md:text-xl italic text-[#6D777B] mb-8 font-serif">
+          "{aboutData.tagline}"
+        </p>
+        
+        <p class="text-base md:text-lg leading-relaxed mb-10 text-gray-700 px-2 md:px-6">
+          {aboutData.description}
+        </p>
+        
+        <hr class="border-[#ffe6ed] mb-8 mx-auto w-3/4" />
+        
+        <div class="flex flex-col gap-4 text-sm md:text-base text-left bg-[#FFFDF5] p-6 md:p-8 rounded-2xl border border-[#ffe6ed] shadow-inner">
+          <div class="flex items-start gap-4">
+            <span class="text-2xl mt-1">📍</span>
+            <p class="leading-relaxed"><strong>Lokasi:</strong> <br/> {aboutData.location}</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="text-2xl">✉️</span>
+            <p><strong>Email:</strong> <a href={`mailto:${aboutData.contactEmail}`} class="text-[#F46B8D] font-bold hover:underline">{aboutData.contactEmail}</a></p>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="text-2xl">💬</span>
+            <p><strong>WhatsApp:</strong> <a href={`https://wa.me/${aboutData.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" class="text-[#F46B8D] font-bold hover:underline">{aboutData.whatsapp}</a></p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+</PageLayout>

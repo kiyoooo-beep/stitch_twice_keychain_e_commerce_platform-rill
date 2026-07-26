@@ -1,0 +1,64 @@
+---
+// src/pages/order/[order_code].astro
+// Dibuka pelanggan setelah checkout, URL: /order/<order_code>
+// Menampilkan QR code statis kamu, lalu otomatis update jadi "Pembayaran Berhasil"
+// begitu admin klik konfirmasi di panel admin (tanpa reload manual).
+
+import PageLayout from '@/layouts/PageLayout.astro';
+
+const { order_code } = Astro.params;
+---
+
+<PageLayout title="Status Pesanan">
+  <div class="max-w-md mx-auto py-10 text-center">
+    <h1 class="text-2xl font-bold mb-2">Pesanan Kamu</h1>
+    <p class="text-on-surface-variant mb-6">Kode Order: <b>{order_code}</b></p>
+
+    <div id="waiting-state">
+      <img
+        src="/qris-statis.png"
+        alt="QRIS Pembayaran"
+        class="w-64 h-64 mx-auto rounded-xl border mb-4"
+      />
+      <p class="text-sm text-on-surface-variant mb-6">
+        Scan QR di atas menggunakan aplikasi e-wallet / mobile banking kamu.
+        Halaman ini akan otomatis update begitu pembayaran kami terima.
+      </p>
+      <div class="flex items-center justify-center gap-2 text-sm text-on-surface-variant">
+        <span class="animate-pulse">●</span> Menunggu konfirmasi pembayaran...
+      </div>
+    </div>
+
+    <div id="success-state" class="hidden">
+      <div class="text-5xl mb-4">🎉</div>
+      <h2 class="text-xl font-bold text-primary mb-2">Pembayaran Berhasil!</h2>
+      <p class="text-on-surface-variant">
+        Terima kasih! Pesanan kamu sedang kami proses. Detail juga sudah kami kirim ke email kamu.
+      </p>
+    </div>
+  </div>
+</PageLayout>
+
+<script define:vars={{ orderCode: order_code }}>
+  const waitingState = document.getElementById('waiting-state');
+  const successState = document.getElementById('success-state');
+
+  async function checkStatus() {
+    try {
+      const res = await fetch(`/api/order-status?order_code=${encodeURIComponent(orderCode)}`);
+      if (!res.ok) return;
+      const data = await res.json();
+
+      if (data.payment_status === 'paid') {
+        waitingState.classList.add('hidden');
+        successState.classList.remove('hidden');
+        clearInterval(pollInterval);
+      }
+    } catch (err) {
+      console.error('Gagal cek status:', err);
+    }
+  }
+
+  checkStatus();
+  const pollInterval = setInterval(checkStatus, 5000);
+</script>

@@ -1,0 +1,259 @@
+---
+// Navigation Header Component dengan Integrasi Backend API
+import { getCartCount } from '@/scripts/cart.js';
+
+const cartCount = getCartCount();
+---
+
+<header
+  class="bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md font-headline-lg-mobile text-headline-lg-mobile docked full-width top-0 sticky shadow-[0_20px_40px_rgba(74,85,104,0.08)] flex justify-between items-center w-full px-margin-mobile h-16 z-50"
+>
+  <div class="flex items-center gap-4 h-full">
+    <div class="flex items-center h-full py-2">
+      <a href="/" class="flex items-center gap-3">
+        <img src="/1.png" alt="Logo Twice" class="h-10 md:h-12 w-auto object-contain" />
+        <span class="font-serif font-bold text-lg md:text-xl tracking-wide text-[#7A4B5E]">TWICE KEYCHAIN</span>
+      </a>    
+    </div>
+  </div>
+  <div class="flex items-center gap-4">
+    <nav class="hidden md:flex gap-3 items-center text-body-md font-body-md">
+      <a class="text-primary font-bold px-2 py-1" href="/">Home</a>
+      <a class="text-on-surface-variant hover:bg-primary-container/20 transition-colors px-2 py-1 rounded-full" href="/shop">Gallery</a>
+      
+      <!-- Tombol About Us yang memanggil Backend API -->
+      <a href="/about" class="text-on-surface-variant hover:bg-primary-container/20 transition-colors px-2 py-1 rounded-full cursor-pointer text-left">About Us</a>
+      
+      <!-- Tombol Join Member yang memanggil Backend API Modal -->
+      <button id="btn-member-backend" type="button" class="text-on-surface-variant hover:bg-primary-container/20 transition-colors px-2 py-1 rounded-full cursor-pointer text-left">Join Member</button>
+    </nav>
+    <button id="open-cart" type="button" class="active:scale-95 transition-transform duration-200 text-primary relative" aria-label="Open cart" aria-haspopup="dialog" aria-controls="cart-drawer">
+      <span class="material-symbols-outlined">shopping_cart</span>
+      <span
+        data-cart-count
+        class:list={['absolute -top-1 -right-1 bg-coral-red text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center', { hidden: cartCount === 0 }]}
+      >
+        {cartCount}
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- MODAL POPUP DINAMIS UNTUK BACKEND -->
+<div id="backend-modal" class="fixed inset-0 z-[80] hidden flex items-center justify-center bg-black/50 backdrop-blur-[2px] p-4">
+  <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-2 border-primary/20">
+    <button id="close-backend-modal" class="absolute top-4 right-4 rounded-full p-1.5 text-gray-400 hover:bg-gray-100">✕</button>
+    
+    <!-- Konten Modal Dinamis -->
+    <div id="modal-body-content">
+      <!-- Diisi otomatis oleh JavaScript -->
+    </div>
+  </div>
+</div>
+
+<!-- (Drawer Keranjang tetap seperti sebelumnya) -->
+<div id="cart-overlay" class="fixed inset-0 z-[60] hidden bg-ink-blue/45 backdrop-blur-[2px]" aria-hidden="true"></div>
+<aside id="cart-drawer" class="fixed inset-y-0 right-0 z-[70] flex w-full max-w-md translate-x-full flex-col bg-surface-container-lowest shadow-2xl transition-transform duration-300" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title" aria-hidden="true">
+  <div class="flex items-start justify-between border-b border-surface-variant/60 px-5 py-5">
+    <div>
+      <p class="font-label-caps text-label-caps text-primary">KERANJANG</p>
+      <h2 id="cart-drawer-title" class="font-headline-md text-headline-md mt-1">0 item</h2>
+    </div>
+    <button id="close-cart" type="button" class="rounded-full p-2 text-on-surface-variant hover:bg-surface-container" aria-label="Close cart">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+  <div id="cart-drawer-items" class="flex-1 space-y-4 overflow-y-auto p-5"></div>
+  <div class="border-t border-surface-variant/60 bg-surface-container-low px-5 py-5">
+    <div class="mb-5 flex items-center justify-between">
+      <span class="text-on-surface-variant">Subtotal</span>
+      <strong id="cart-drawer-subtotal" class="font-price-display text-price-display text-primary">Rp0</strong>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      <button id="clear-cart" type="button" class="rounded-full border border-outline-variant py-3 text-sm font-bold text-on-surface-variant hover:bg-surface-container">KOSONGKAN</button>
+      <a id="cart-checkout" href="/shipping" class="rounded-full bg-secondary py-3 text-center text-sm font-bold text-white hover:bg-on-secondary-container">CHECKOUT</a>
+    </div>
+  </div>
+</aside>
+
+<script>
+  import { clearCart, getCart, removeFromCart, syncCartBadge, updateQuantity } from '@/scripts/cart.js';
+
+  // --- Skrip Keranjang ---
+  const openCart = document.getElementById('open-cart');
+  const closeCart = document.getElementById('close-cart');
+  const cartOverlay = document.getElementById('cart-overlay');
+  const cartDrawer = document.getElementById('cart-drawer');
+  const cartItemsContainer = document.getElementById('cart-drawer-items');
+  const cartTitle = document.getElementById('cart-drawer-title');
+  const subtotalElement = document.getElementById('cart-drawer-subtotal');
+  const clearCartButton = document.getElementById('clear-cart');
+
+  const formatPrice = (value) => Math.round(value).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 });
+  const parsePrice = (value) => Number(String(value).replace(/\D/g, '')) || 0;
+  const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
+
+  function renderCartDrawer() {
+    const items = getCart();
+    const itemCount = items.reduce((count, item) => count + item.quantity, 0);
+    const subtotal = items.reduce((total, item) => total + parsePrice(item.price) * item.quantity, 0);
+    if (cartTitle) cartTitle.textContent = `${itemCount} ${itemCount === 1 ? 'item' : 'items'}`;
+    if (subtotalElement) subtotalElement.textContent = formatPrice(subtotal);
+    if (clearCartButton) clearCartButton.disabled = items.length === 0;
+    if (!cartItemsContainer) return;
+
+    cartItemsContainer.innerHTML = items.length
+      ? items.map((item) => `
+        <article class="rounded-xl border border-surface-variant/80 bg-surface-container-low p-3">
+          <div class="flex gap-3">
+            <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}" class="h-20 w-20 shrink-0 rounded-lg border border-surface-variant/50 object-cover" />
+            <div class="min-w-0 flex-1">
+              <p class="text-xs font-bold uppercase tracking-wide text-secondary">${escapeHtml(item.variant || 'Keychain')}</p>
+              <h3 class="mt-1 truncate font-headline-md text-base text-primary">${escapeHtml(item.name)}</h3>
+              <p class="mt-1 font-bold text-secondary">${formatPrice(parsePrice(item.price))}</p>
+              <div class="mt-3 flex items-center justify-between gap-2">
+                <div class="flex items-center rounded-full border border-outline-variant bg-surface-container-lowest">
+                  <button type="button" class="px-3 py-1.5 hover:text-primary" data-cart-quantity="-1" data-product-id="${item.id}" aria-label="Kurangi jumlah">−</button>
+                  <span class="w-8 text-center text-sm font-bold">${item.quantity}</span>
+                  <button type="button" class="px-3 py-1.5 hover:text-primary" data-cart-quantity="1" data-product-id="${item.id}" aria-label="Tambah jumlah">+</button>
+                </div>
+                <button type="button" class="text-sm font-bold text-secondary hover:underline" data-cart-remove="${item.id}">Hapus</button>
+              </div>
+            </div>
+          </div>
+        </article>`).join('')
+      : '<div class="py-14 text-center"><span class="material-symbols-outlined text-5xl text-outline-variant">shopping_bag</span><p class="mt-4 text-on-surface-variant">Keranjangmu masih kosong.</p><a href="/shop" class="mt-5 inline-block font-bold text-primary hover:underline">Mulai belanja</a></div>';
+    syncCartBadge();
+  }
+
+  function setCartDrawer(open) {
+    if (!cartDrawer || !cartOverlay) return;
+    cartDrawer.classList.toggle('translate-x-full', !open);
+    cartOverlay.classList.toggle('hidden', !open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) renderCartDrawer();
+  }
+
+  openCart?.addEventListener('click', () => setCartDrawer(true));
+  closeCart?.addEventListener('click', () => setCartDrawer(false));
+  cartOverlay?.addEventListener('click', () => setCartDrawer(false));
+  clearCartButton?.addEventListener('click', () => { clearCart(); renderCartDrawer(); });
+  cartItemsContainer?.addEventListener('click', (event) => {
+    const target = event.target instanceof Element ? event.target.closest('button') : null;
+    if (!target) return;
+    const productId = Number(target.getAttribute('data-product-id') || target.getAttribute('data-cart-remove'));
+    if (target.hasAttribute('data-cart-quantity')) updateQuantity(productId, Number(target.getAttribute('data-cart-quantity')));
+    if (target.hasAttribute('data-cart-remove')) removeFromCart(productId);
+    renderCartDrawer();
+  });
+
+  syncCartBadge();
+  renderCartDrawer();
+  window.addEventListener('cart:updated', () => { syncCartBadge(); renderCartDrawer(); });
+
+
+  // --- Skrip Backend Interaksi (About Us & Join Member) ---
+  const backendModal = document.getElementById('backend-modal');
+  const closeBackendModal = document.getElementById('close-backend-modal');
+  const modalBodyContent = document.getElementById('modal-body-content');
+  const btnAbout = document.getElementById('btn-about-backend');
+  const btnMember = document.getElementById('btn-member-backend');
+
+  function openModal(htmlContent) {
+    modalBodyContent.innerHTML = htmlContent;
+    backendModal.classList.remove('hidden');
+  }
+
+  function closeModalFunc() {
+    backendModal.classList.add('hidden');
+  }
+
+  closeBackendModal?.addEventListener('click', closeModalFunc);
+  backendModal?.addEventListener('click', (e) => { if (e.target === backendModal) closeModalFunc(); });
+
+  // 1. Fetch Backend untuk About Us
+  btnAbout?.addEventListener('click', async () => {
+    try {
+      const res = await fetch('/api/about-us');
+      const data = await res.json();
+      
+      openModal(`
+        <h3 class="text-xl font-bold text-primary mb-2">${data.storeName} ✨</h3>
+        <p class="text-sm text-gray-600 mb-4 italic">${data.tagline}</p>
+        <p class="text-sm text-gray-700 leading-relaxed mb-4">${data.description}</p>
+        <div class="border-t pt-3 text-xs text-gray-500 space-y-1">
+          <p>📍 <strong>Lokasi:</strong> ${data.location}</p>
+          <p>📧 <strong>Email:</strong> ${data.contactEmail}</p>
+          <p>💬 <strong>WhatsApp:</strong> ${data.whatsapp}</p>
+        </div>
+      `);
+    } catch (err) {
+      alert('Gagal memuat data dari server backend.');
+    }
+  });
+
+  // 2. Tampilkan Form Join Member yang terhubung ke Backend POST API
+  btnMember?.addEventListener('click', () => {
+    openModal(`
+      <h3 class="text-xl font-bold text-primary mb-2">Join Member Club 💖</h3>
+      <p class="text-sm text-gray-600 mb-4">Daftar sekarang dan dapatkan voucher diskon spesial 10% langsung!</p>
+      <form id="member-form" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Nama Lengkap</label>
+          <input type="text" id="member-name" required class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-primary" placeholder="Masukkan nama kamu" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Email Aktif</label>
+          <input type="email" id="member-email" required class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-primary" placeholder="nama@email.com" />
+        </div>
+        <button type="submit" class="w-full py-2.5 bg-primary text-white font-bold rounded-lg text-sm hover:opacity-90 transition-opacity mt-2">Daftar Sekarang</button>
+      </form>
+    `);
+
+    // Handle submit form ke Backend API /api/join-member
+    setTimeout(() => {
+      const form = document.getElementById('member-form');
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fullName = document.getElementById('member-name').value;
+        const email = document.getElementById('member-email').value;
+
+        try {
+          const response = await fetch('/api/join-member', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fullName, email })
+          });
+          const result = await response.json();
+
+          if (response.ok) {
+            openModal(`
+              <div class="text-center py-4">
+                <span class="material-symbols-outlined text-5xl text-green-500 mb-2">check_circle</span>
+                <h3 class="text-xl font-bold text-primary mb-1">Selamat, ${fullName}! 🎉</h3>
+                <p class="text-sm text-gray-600 mb-3">${result.message}</p>
+                <div class="bg-pink-50 border border-pink-200 rounded-xl p-3 mb-4">
+                  <p class="text-xs text-gray-500">ID Member Kamu:</p>
+                  <p class="font-mono font-bold text-primary text-base">${result.memberId}</p>
+                  <p class="text-xs text-gray-500 mt-2">Kode Voucher Diskon:</p>
+                  <p class="font-bold text-secondary text-sm">${result.discountVoucher}</p>
+                </div>
+                <button type="button" onclick="location.reload()" class="w-full py-2 bg-primary text-white font-bold rounded-lg text-sm">Tutup</button>
+              </div>
+            `);
+          } else {
+            alert(result.message || 'Pendaftaran gagal.');
+          }
+        } catch (err) {
+          alert('Terjadi kesalahan koneksi ke server.');
+        }
+      });
+    }, 50);
+  });
+</script>
+
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+</style>

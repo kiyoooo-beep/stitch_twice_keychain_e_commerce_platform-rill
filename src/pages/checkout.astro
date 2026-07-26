@@ -1,0 +1,227 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Payment">
+  <header class="sticky top-0 z-50 bg-surface/80 backdrop-blur-md h-16 flex items-center px-margin-mobile md:px-margin-desktop justify-between">
+    <a href="/shipping" class="p-2 rounded-full hover:bg-primary-container/20 transition-all active:scale-95" aria-label="Back to shipping">
+      <span class="material-symbols-outlined text-primary">arrow_back</span>
+    </a>
+    <h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">TWICE KEYCHAIN</h1>
+    <div class="w-10"></div>
+  </header>
+
+  <main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-7 space-y-6">
+        <div class="flex items-center gap-4" aria-label="Checkout progress">
+          <div class="flex items-center gap-2 opacity-40">
+            <span class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-sm">1</span>
+            <span class="font-headline-md text-headline-md">Shipping</span>
+          </div>
+          <div class="h-px flex-1 bg-outline-variant"></div>
+          <div class="flex items-center gap-2">
+            <span class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">2</span>
+            <span class="font-headline-md text-headline-md text-primary">Payment</span>
+          </div>
+        </div>
+        <p class="text-sm text-on-surface-variant" role="status">Step 2 of 2: Select your payment method.</p>
+
+        <section class="bg-surface-container-lowest p-6 md:p-8 rounded-xl cloud-shadow border border-surface-variant/50">
+          <div class="flex items-start justify-between gap-4 mb-6">
+            <div>
+              <h2 class="font-headline-md text-headline-md flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">payments</span>
+                Payment Method
+              </h2>
+              <p class="text-sm text-on-surface-variant mt-2">Your shipping details have been saved.</p>
+            </div>
+            <a href="/shipping" class="text-sm font-bold text-primary hover:underline">Edit shipping</a>
+          </div>
+          <button type="button" class="w-full text-left relative border-2 border-primary bg-primary-container/10 p-4 rounded-xl transition-all" aria-pressed="true">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-[#00AED6] rounded-lg flex items-center justify-center">
+                  <span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">qr_code_2</span>
+                </div>
+                <span class="font-headline-md text-headline-md text-primary">QRIS</span>
+              </div>
+              <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+            </div>
+            <p class="text-xs text-on-primary-container/80">Pay using any QRIS-compatible banking app or e-wallet.</p>
+          </button>
+        </section>
+      </div>
+
+      <aside class="lg:col-span-5">
+        <div class="sticky top-24 bg-surface-container-high p-6 md:p-8 rounded-xl cloud-shadow border border-surface-variant/30">
+          <h2 class="font-headline-md text-headline-md mb-6">Order Summary</h2>
+          <div id="checkout-items" class="space-y-4 mb-8"></div>
+          <div class="space-y-3 pt-6 border-t border-surface-variant/50">
+            <div class="flex justify-between text-on-surface-variant"><span>Subtotal</span><span id="checkout-subtotal">Rp0</span></div>
+            <div class="flex justify-between text-on-surface-variant"><span>Shipping</span><span class="text-pastel-green font-bold">FREE</span></div>
+            <div class="flex justify-between pt-3 border-t border-surface-variant/50"><span class="font-headline-md text-headline-md">Total</span><span id="checkout-total" class="font-price-display text-headline-lg text-primary">Rp0</span></div>
+          </div>
+          <button id="pay-button" class="w-full mt-8 bg-primary text-white py-4 rounded-full font-headline-md text-headline-md flex items-center justify-center gap-2 hover:bg-on-primary-fixed-variant transition-all active:scale-95 shadow-lg shadow-primary/20">
+            Continue to QRIS
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- MODAL QRIS -->
+  <div class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-ink-blue/40 backdrop-blur-sm" id="qris-modal">
+    <div class="bg-white w-full max-w-md rounded-xl cloud-shadow p-8 relative animate-float">
+      <button class="absolute top-4 right-4 text-on-surface-variant hover:text-primary z-10" id="close-modal" aria-label="Close payment dialog">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      
+      <!-- BAGIAN 1: MENUNGGU PEMBAYARAN -->
+      <div id="payment-waiting-section" class="text-center block">
+        <h3 class="font-headline-md text-headline-md mb-2">Scan to Pay</h3>
+        <p class="text-on-surface-variant mb-6">Total Amount: <span id="checkout-modal-total" class="text-primary font-bold">Rp0</span></p>
+        
+        <div class="bg-surface-container rounded-xl p-6 mb-6 aspect-square flex items-center justify-center border-4 border-dashed border-primary/20">
+          <img alt="QRIS payment code" class="w-full h-full object-contain rounded-lg" src="/qris.jpeg" />
+        </div>
+        
+        <div class="flex items-center justify-center gap-4 py-3 bg-pastel-yellow/30 rounded-lg mb-6">
+          <span class="material-symbols-outlined text-primary">schedule</span>
+          <span class="text-sm font-bold text-on-primary-container">Waiting for payment...</span>
+        </div>
+
+        <!-- Tombol Pembayaran Asli -->
+        <button id="btn-bayar-selesai" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-primary/90 transition-all active:scale-95">
+          Konfirmasi Pembayaran Selesai
+        </button>
+      </div>
+
+      <!-- BAGIAN 2: NOTIFIKASI SUKSES -->
+      <div id="payment-success-section" class="text-center hidden py-4">
+        <div class="mb-6 flex justify-center">
+          <span class="material-symbols-outlined text-pastel-green" style="font-size: 5rem; font-variation-settings: 'FILL' 1;">check_circle</span>
+        </div>
+        <h3 class="font-headline-md text-headline-md text-primary mb-2">Payment Success!</h3>
+        <p class="text-on-surface-variant text-sm mb-8">
+          Terima kasih! Bukti pembelian dan detail pesanan telah diproses.
+        </p>
+        <a href="/" class="block w-full bg-surface-variant text-on-surface-variant py-3 rounded-lg font-bold hover:bg-surface-container-high transition-all">
+          Kembali ke Beranda
+        </a>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import { getCart, syncCartBadge } from '@/scripts/cart.js';
+
+  const shippingDataString = window.sessionStorage.getItem('twice-shipping-data');
+  if (!shippingDataString) window.location.replace('/shipping');
+
+  const itemsContainer = document.getElementById('checkout-items');
+  const subtotalEl = document.getElementById('checkout-subtotal');
+  const totalEl = document.getElementById('checkout-total');
+  const modalTotalEl = document.getElementById('checkout-modal-total');
+  
+  const qrisModal = document.getElementById('qris-modal');
+  const waitingSection = document.getElementById('payment-waiting-section');
+  const successSection = document.getElementById('payment-success-section');
+  const btnSelesai = document.getElementById('btn-bayar-selesai');
+
+  const formatPrice = (value) => Math.round(value).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 });
+  const parsePrice = (value) => Number(String(value).replace(/\D/g, '')) || 0;
+
+  function renderCheckout() {
+    const cartItems = getCart();
+    const subtotal = cartItems.reduce((sum, item) => sum + parsePrice(item.price) * item.quantity, 0);
+    if (itemsContainer) {
+      itemsContainer.innerHTML = cartItems.length ? cartItems.map((item) => `
+        <div class="flex items-center gap-4">
+          <img class="w-16 h-16 object-cover rounded-lg border border-surface-variant/30" alt="${item.name}" src="${item.image}" />
+          <div class="flex-1">
+            <h3 class="font-headline-md text-primary">${item.name}</h3>
+            <div class="flex justify-between text-sm">
+              <span>${formatPrice(parsePrice(item.price))}</span>
+              <span>Qty: ${item.quantity}</span>
+            </div>
+          </div>
+        </div>`).join('') : '<p class="text-on-surface-variant">Your cart is empty.</p>';
+    }
+    subtotalEl.textContent = formatPrice(subtotal);
+    totalEl.textContent = formatPrice(subtotal);
+    modalTotalEl.textContent = formatPrice(subtotal);
+    syncCartBadge();
+  }
+
+  // --- LOGIKA PEMBAYARAN ASLI (NEMBAK API & EMAIL) ---
+  if (btnSelesai) {
+    btnSelesai.addEventListener('click', async () => {
+      const originalText = btnSelesai.innerText;
+      btnSelesai.innerText = 'Memproses...';
+      btnSelesai.disabled = true;
+      btnSelesai.classList.add('opacity-70', 'cursor-not-allowed');
+
+      try {
+        // Ambil order_code yang disimpen waktu isi form shipping
+        const shippingData = JSON.parse(window.sessionStorage.getItem('twice-shipping-data') || '{}');
+        const kodeOrder = shippingData.order_code;
+
+        if (!kodeOrder) throw new Error("Order code hilang! Silakan isi ulang form shipping.");
+
+        // Nembak API checkout beneran!
+        const response = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ order_code: kodeOrder })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) throw new Error(result.error || 'Gagal diproses');
+
+        // Kalau API sukses balikin status 200, baru ganti tampilan sukses
+        waitingSection.classList.add('hidden');
+        successSection.classList.remove('hidden');
+
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Gagal: " + error.message);
+        
+        // Balikin tombol kalau gagal
+        btnSelesai.innerText = originalText;
+        btnSelesai.disabled = false;
+        btnSelesai.classList.remove('opacity-70', 'cursor-not-allowed');
+      }
+    });
+  }
+
+  // --- LOGIKA MODAL ---
+  document.getElementById('pay-button')?.addEventListener('click', () => { 
+    qrisModal?.classList.replace('hidden', 'flex'); 
+    document.body.style.overflow = 'hidden'; 
+  });
+
+  const hideModal = () => { 
+    qrisModal?.classList.replace('flex', 'hidden'); 
+    document.body.style.overflow = 'auto'; 
+    
+    setTimeout(() => {
+      waitingSection?.classList.remove('hidden');
+      successSection?.classList.add('hidden');
+      if(btnSelesai) {
+        btnSelesai.innerText = 'Konfirmasi Pembayaran Selesai';
+        btnSelesai.disabled = false;
+        btnSelesai.classList.remove('opacity-70', 'cursor-not-allowed');
+      }
+    }, 300);
+  };
+
+  document.getElementById('close-modal')?.addEventListener('click', hideModal);
+  qrisModal?.addEventListener('click', (event) => { if (event.target === qrisModal) hideModal(); });
+  
+  renderCheckout();
+</script>

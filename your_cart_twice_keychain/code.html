@@ -1,0 +1,345 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Shopping Cart - Twice Keychain</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;family=Nunito+Sans:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "on-primary": "#ffffff",
+                  "on-surface-variant": "#514347",
+                  "surface-container-lowest": "#ffffff",
+                  "primary-container": "#ffb7ce",
+                  "inverse-surface": "#30312c",
+                  "on-tertiary-fixed-variant": "#2a4f2a",
+                  "on-tertiary-fixed": "#002204",
+                  "on-secondary-fixed-variant": "#1a4d5a",
+                  "inverse-on-surface": "#f3f1e9",
+                  "pastel-green": "#C1E1C1",
+                  "on-primary-fixed": "#360b1e",
+                  "on-primary-container": "#7b4458",
+                  "surface": "#fbf9f1",
+                  "on-error-container": "#93000a",
+                  "outline-variant": "#d5c2c6",
+                  "surface-bright": "#fbf9f1",
+                  "secondary-fixed-dim": "#9ecede",
+                  "error-container": "#ffdad6",
+                  "on-secondary-fixed": "#001f27",
+                  "on-secondary": "#ffffff",
+                  "background": "#fbf9f1",
+                  "tertiary-container": "#abd6a5",
+                  "secondary-fixed": "#baeafa",
+                  "on-tertiary": "#ffffff",
+                  "surface-container-low": "#f5f4ec",
+                  "secondary-container": "#b7e7f7",
+                  "outline": "#837377",
+                  "on-surface": "#1b1c17",
+                  "surface-container-high": "#eae8e0",
+                  "coral-red": "#FF9B9B",
+                  "tertiary-fixed": "#c2eebb",
+                  "surface-container": "#f0eee6",
+                  "surface-container-highest": "#e4e3db",
+                  "tertiary-fixed-dim": "#a7d2a1",
+                  "pastel-yellow": "#FFF5BA",
+                  "on-error": "#ffffff",
+                  "on-background": "#1b1c17",
+                  "on-secondary-container": "#3a6977",
+                  "tertiary": "#41673f",
+                  "surface-dim": "#dcdad2",
+                  "on-tertiary-container": "#385e37",
+                  "primary": "#864d61",
+                  "primary-fixed-dim": "#fab3ca",
+                  "primary-fixed": "#ffd9e3",
+                  "secondary": "#356572",
+                  "surface-variant": "#e4e3db",
+                  "ink-blue": "#4A5568",
+                  "on-primary-fixed-variant": "#6a364a",
+                  "inverse-primary": "#fab3ca",
+                  "error": "#ba1a1a",
+                  "surface-tint": "#864d61"
+          },
+          "borderRadius": {
+                  "DEFAULT": "1rem",
+                  "lg": "2rem",
+                  "xl": "3rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "margin-desktop": "40px",
+                  "base": "8px",
+                  "container-max": "1200px",
+                  "margin-mobile": "20px",
+                  "gutter": "16px"
+          },
+          "fontFamily": {
+                  "headline-lg-mobile": ["Quicksand"],
+                  "body-lg": ["Nunito Sans"],
+                  "label-caps": ["Quicksand"],
+                  "headline-lg": ["Quicksand"],
+                  "body-md": ["Nunito Sans"],
+                  "display-hero": ["Quicksand"],
+                  "price-display": ["Quicksand"],
+                  "headline-md": ["Quicksand"]
+          },
+          "fontSize": {
+                  "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                  "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                  "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                  "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                  "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "display-hero": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                  "price-display": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                  "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #fbf9f1;
+      overflow-x: hidden;
+    }
+
+    .sparkle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .cloud-shadow {
+      box-shadow: 0 20px 40px rgba(74, 85, 104, 0.08);
+    }
+
+    .sticker-border {
+      border: 2px solid #ffb7ce33;
+    }
+
+    .kawaii-button {
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .kawaii-button:active {
+      transform: scale(0.95);
+      box-shadow: 0 5px 15px rgba(74, 85, 104, 0.1);
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+</head>
+<body class="font-body-md text-on-surface">
+<canvas class="sparkle-canvas" id="sparkle-canvas"></canvas>
+<!-- TopAppBar Component (from COMPONENT JSON) -->
+<header class="bg-surface/80 backdrop-blur-md text-primary font-headline-lg-mobile text-headline-lg-mobile docked full-width top-0 sticky flex justify-between items-center w-full px-margin-mobile h-16 z-50 shadow-[0_20px_40px_rgba(74,85,104,0.08)]">
+<div class="flex items-center gap-2">
+<button class="hover:bg-primary-container/20 transition-colors active:scale-95 transition-transform duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<img alt="Twice Keychain Logo" class="h-8 w-8 object-contain rounded-full" src="https://lh3.googleusercontent.com/aida/AP1WRLvindyOa4RV9g4Op5oAFTx-CgpUyvzP4AdT3PFMtfQLAMaed46r1oenoQlqxFo4VbSCyBFEpL5povwab_206K6MjMRsGq8iTKjUuXDtPwkZ4aTqHi3kSvD0DUt7qcgedw6OJpSyiTfKIa4C9IMKz2fsRP0rckLMlDJoNdeBz-FLpvA9joTSYbWHRSezQXXrOHKoxe4XCT-iwX1mV-iioM1_B2yMFtoP8Sydkx0uqrN9s5g5xulKXFNU5A">
+</div>
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">TWICE KEYCHAIN</div>
+<div class="flex items-center gap-2">
+<button class="hover:bg-primary-container/20 transition-colors active:scale-95 transition-transform duration-200 p-2 rounded-full relative">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute top-1 right-1 bg-coral-red text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">2</span>
+</button>
+</div>
+</header>
+<main class="relative z-10 max-w-container-max mx-auto px-margin-mobile pt-8 pb-32">
+<!-- Shopping Cart Heading -->
+<div class="mb-8">
+<h1 class="font-display-hero text-display-hero text-primary tracking-tight md:text-6xl mb-2">Shopping Cart</h1>
+<p class="font-body-lg text-on-surface-variant">You have 2 adorable items waiting for you! ✨</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Item List Container -->
+<div class="lg:col-span-2 space-y-6">
+<!-- Item 1: Mina Penguin Charm -->
+<div class="bg-white rounded-xl p-4 md:p-6 cloud-shadow flex flex-col md:flex-row gap-6 items-center md:items-start transition-transform hover:scale-[1.01]">
+<div class="relative w-32 h-32 md:w-40 md:h-40 flex-shrink-0">
+<div class="absolute inset-0 bg-pastel-yellow/30 rounded-lg -rotate-3"></div>
+<img class="relative w-full h-full object-cover rounded-lg sticker-border" data-alt="A professional product photography shot of a high-quality acrylic keychain featuring a cute stylized penguin character inspired by Mina from Twice. The penguin wears a tiny ballet tutu and is surrounded by soft pastel pink and mint green sparkles. The background is a clean, minimalist off-white surface with soft ambient lighting, emphasizing the tactile and glossy finish of the charm." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUy3Ex1XGiJCgPuwYlqXldH7YfgmoKe2TZU7V4MRx51TXCZ-otCzOT8jwoBJPdDIkYwAisoOOPB0ANoXatqzA36_K2krm5EQGVxcbI07-ADVQflyn2j-prpaGKklOYQcowkPSheDQ6MxGDrbNVLnrrvgt4XlzAvYV0wBr1nDzj-7SqWvY4ojbJIGNUBdMHctZWL_t4-xu_-mhBfr9rb9riDKjWLTdgzEAsfhVTlcswlcdV-defxgAH">
+</div>
+<div class="flex-grow text-center md:text-left space-y-2 w-full">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-on-surface">Mina Penguin Charm</h3>
+<button class="text-on-surface-variant hover:text-coral-red transition-colors p-2">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface-variant/70 uppercase">Edition: Candy Pop Pink</p>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-4">
+<span class="font-price-display text-price-display text-primary">$18.00</span>
+<div class="flex items-center justify-center bg-surface-container-low rounded-full px-4 py-2 gap-4 w-fit mx-auto md:mx-0">
+<button class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary hover:bg-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="font-headline-md text-headline-md w-6 text-center">1</span>
+<button class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary hover:bg-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2: Twice Deco Sticker Pack -->
+<div class="bg-white rounded-xl p-4 md:p-6 cloud-shadow flex flex-col md:flex-row gap-6 items-center md:items-start transition-transform hover:scale-[1.01]">
+<div class="relative w-32 h-32 md:w-40 md:h-40 flex-shrink-0">
+<div class="absolute inset-0 bg-pastel-green/30 rounded-lg rotate-3"></div>
+<img class="relative w-full h-full object-cover rounded-lg sticker-border" data-alt="A vibrant collection of high-quality aesthetic stickers spread across a soft cream-colored background. The stickers feature Y2K-inspired motifs like holographic stars, bubbly hearts, and cartoon elements representing members of the K-pop group Twice. The style is Kawaii and playful, with a mix of matte and glossy finishes. The lighting is bright and cheerful, highlighting the intricate pastel gradients and sharp line art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1UBE6T0CTtLkM70Pdq-uZVkjc7GnWlTzDG8B3jMvBVfGUn5OzASbjMQWx9So52zW_ZYic3Z14QGVWaYNRmVipUw-NadiLCYTafetcKMkNGrEpTe702bJbwF0aNdJau7OxG_vYYCevIjhNMNQ4SckPyiReKk4KojECO9_thq2HHhjYBvtkRCkwCthECDN4D6hvrS6L6GlxkHFpW_iAn4NATav4S00uB3iSbamRoBwJIHlEnprX6HUM">
+</div>
+<div class="flex-grow text-center md:text-left space-y-2 w-full">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-on-surface">Twice Deco Sticker Pack</h3>
+<button class="text-on-surface-variant hover:text-coral-red transition-colors p-2">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface-variant/70 uppercase">Variant: Star Gazing</p>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-4">
+<span class="font-price-display text-price-display text-primary">$12.00</span>
+<div class="flex items-center justify-center bg-surface-container-low rounded-full px-4 py-2 gap-4 w-fit mx-auto md:mx-0">
+<button class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary hover:bg-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="font-headline-md text-headline-md w-6 text-center">1</span>
+<button class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-primary hover:bg-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Order Summary Section -->
+<aside class="space-y-6">
+<div class="bg-white rounded-xl p-6 cloud-shadow sticky top-24">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-6">Order Summary</h2>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md text-body-md">Subtotal</span>
+<span class="font-headline-md text-headline-md">$30.00</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md text-body-md">Shipping</span>
+<span class="font-label-caps text-label-caps text-tertiary px-3 py-1 bg-tertiary-fixed rounded-full">FREE</span>
+</div>
+<div class="h-[2px] bg-surface-container-high my-4 w-full"></div>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-on-surface">Total</span>
+<span class="font-price-display text-price-display text-primary">$30.00</span>
+</div>
+</div>
+<div class="mt-8">
+<button class="kawaii-button w-full bg-primary-container text-on-primary-container font-headline-md text-headline-md py-4 rounded-full shadow-lg shadow-primary-container/30 border-2 border-primary-container active:bg-primary-container/90">
+              Proceed to Checkout
+            </button>
+<p class="text-center text-on-surface-variant/50 text-[12px] mt-4 flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-sm">lock</span> Secure Payment Checkout
+            </p>
+</div>
+<!-- Promo Code Input -->
+<div class="mt-8 border-t border-surface-container-high pt-6">
+<label class="font-label-caps text-label-caps text-on-surface-variant/70 block mb-2">PROMO CODE</label>
+<div class="flex gap-2">
+<input class="flex-grow bg-surface-container-low border-2 border-transparent focus:border-secondary-fixed focus:ring-0 rounded-full px-4 py-2 font-body-md text-body-md outline-none" placeholder="CANDYPOP" type="text">
+<button class="bg-secondary-container text-on-secondary-container px-4 py-2 rounded-full font-label-caps text-label-caps uppercase">Apply</button>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- BottomNavBar (from COMPONENT JSON) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-surface-container-lowest/90 backdrop-blur-lg rounded-t-xl z-50 shadow-[0_-10px_40px_rgba(74,85,104,0.12)]">
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:bg-surface-variant/30 rounded-full transition-all active:scale-90 px-4 py-2">
+<span class="material-symbols-outlined">home</span>
+<span class="font-body-md text-body-md">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-5 py-1.5 transition-all active:scale-90">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-body-md text-body-md font-bold">Shop</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:bg-surface-variant/30 rounded-full transition-all active:scale-90 px-4 py-2">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-body-md text-body-md">New</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:bg-surface-variant/30 rounded-full transition-all active:scale-90 px-4 py-2">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md text-body-md">Me</span>
+</div>
+</nav>
+<script>
+    // Sparkling Star Background Logic
+    const canvas = document.getElementById('sparkle-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, stars;
+
+    function init() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      stars = [];
+      for (let i = 0; i < 50; i++) {
+        stars.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 3 + 1,
+          speed: Math.random() * 0.05 + 0.02,
+          opacity: Math.random(),
+          direction: Math.random() > 0.5 ? 1 : -1
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      stars.forEach(star => {
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255, 183, 206, ${star.opacity})`; // Pastel Pink
+        
+        // Draw small 4-pointed star
+        const cx = star.x;
+        const cy = star.y;
+        const s = star.size;
+        ctx.moveTo(cx, cy - s);
+        ctx.lineTo(cx + s/4, cy - s/4);
+        ctx.lineTo(cx + s, cy);
+        ctx.lineTo(cx + s/4, cy + s/4);
+        ctx.lineTo(cx, cy + s);
+        ctx.lineTo(cx - s/4, cy + s/4);
+        ctx.lineTo(cx - s, cy);
+        ctx.lineTo(cx - s/4, cy - s/4);
+        ctx.fill();
+
+        star.opacity += star.speed * star.direction;
+        if (star.opacity > 0.8 || star.opacity < 0.1) star.direction *= -1;
+      });
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', init);
+    init();
+    draw();
+
+    // Micro-interaction for quantity buttons
+    document.querySelectorAll('.kawaii-button, button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Haptic feedback logic could go here
+      });
+    });
+  </script>
+</body></html>

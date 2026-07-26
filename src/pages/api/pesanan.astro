@@ -1,0 +1,93 @@
+---
+// src/pages/admin/pesanan.astro
+// PERINGATAN: halaman ini belum ada proteksi login. Untuk keperluan tugas ini biasanya
+// tidak masalah, tapi kalau mau lebih aman, tambahkan password sederhana / auth di sini.
+
+import PageLayout from '@/layouts/PageLayout.astro';
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+const res = await fetch(
+  `${supabaseUrl}/rest/v1/pelanggan?payment_status=eq.menunggu_pembayaran&order=created_at.desc`,
+  { headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}` } }
+);
+const pendingOrders = res.ok ? await res.json() : [];
+---
+
+<PageLayout title="Admin - Konfirmasi Pesanan">
+  <div class="max-w-3xl mx-auto py-8">
+    <h1 class="text-2xl font-bold mb-2">Pesanan Menunggu Pembayaran</h1>
+    <p class="text-sm text-on-surface-variant mb-6">
+      Cek mutasi di aplikasi e-wallet / mobile banking kamu, cocokkan nominal & waktu dengan daftar
+      di bawah, lalu klik "Konfirmasi Pembayaran".
+    </p>
+
+    {pendingOrders.length === 0 && (
+      <p class="text-on-surface-variant">Tidak ada pesanan yang menunggu pembayaran saat ini.</p>
+    )}
+
+    <div class="space-y-4">
+      {pendingOrders.map((order: any) => (
+        <div class="border rounded-xl p-4 bg-surface-container-low" data-order-code={order.order_code}>
+          <div class="mb-2">
+            <p class="font-bold">{order.nama}</p>
+            <p class="text-sm text-on-surface-variant">{order.order_code} · {order.email}</p>
+            <p class="text-sm">Total: <b>Rp{Number(order.total).toLocaleString('id-ID')}</b></p>
+            <p class="text-xs text-on-surface-variant">
+              {new Date(order.created_at).toLocaleString('id-ID')}
+            </p>
+          </div>
+
+          <ul class="text-sm text-on-surface-variant mb-3">
+            {(order.pesanan || []).map((item: any) => (
+              <li>{item.name} x{item.qty || 1}</li>
+            ))}
+          </ul>
+
+          <button
+            class="confirm-btn bg-primary text-white px-4 py-2 rounded-full text-sm font-bold"
+            data-order-code={order.order_code}
+          >
+            Konfirmasi Pembayaran
+          </button>
+        </div>
+      ))}
+    </div>
+  </div>
+</PageLayout>
+
+<script is:inline>
+  document.querySelectorAll('.confirm-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const orderCode = btn.getAttribute('data-order-code');
+      if (!confirm(`Yakin sudah menerima pembayaran untuk order ${orderCode}?`)) return;
+
+      btn.disabled = true;
+      btn.textContent = 'Memproses...';
+
+      try {
+        const res = await fetch('/api/confirm-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ order_code: orderCode }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          alert(data.error || 'Gagal konfirmasi.');
+          btn.disabled = false;
+          btn.textContent = 'Konfirmasi Pembayaran';
+          return;
+        }
+
+        if (data.warning) alert(data.warning);
+        btn.closest('[data-order-code]').remove();
+      } catch (err) {
+        alert('Terjadi kesalahan: ' + err.message);
+        btn.disabled = false;
+        btn.textContent = 'Konfirmasi Pembayaran';
+      }
+    });
+  });
+</script>

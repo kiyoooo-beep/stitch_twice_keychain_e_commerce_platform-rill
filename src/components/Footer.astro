@@ -1,0 +1,90 @@
+---
+// Footer Component dengan Backend Integration untuk About Us & Location
+---
+
+<footer class="bg-surface-container-highest mt-24 py-12 border-t border-surface-variant/30">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div>
+        <h3 class="font-headline-md text-headline-md text-primary mb-4">TWICE KEYCHAIN</h3>
+        <p class="text-on-surface-variant text-sm">Kawaii collectibles for the lovers of cute things.</p>
+      </div>
+      <div>
+        <h4 class="font-label-caps text-label-caps text-on-surface mb-4">Shop</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/shop" class="text-on-surface-variant hover:text-primary transition-colors">All Products</a></li>
+          <li><a href="/shop" class="text-on-surface-variant hover:text-primary transition-colors">New Arrivals</a></li>
+          <li><a href="/shop" class="text-on-surface-variant hover:text-primary transition-colors">Collections</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-label-caps text-label-caps text-on-surface mb-4">Customer</h4>
+        <ul class="space-y-2 text-sm">
+          <!-- Tombol About Us yang terhubung ke Backend -->
+          <li><button id="btn-about" class="text-on-surface-variant hover:text-primary transition-colors text-left cursor-pointer bg-transparent border-none p-0 font-inherit">About Us</button></li>
+          <!-- Tombol Location yang terhubung ke Backend -->
+          <li><button id="btn-location" class="text-on-surface-variant hover:text-primary transition-colors text-left cursor-pointer bg-transparent border-none p-0 font-inherit">Location</button></li>
+          <li><a href="https://wa.me/6285179932283" target="_blank" class="text-on-surface-variant hover:text-primary transition-colors">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-label-caps text-label-caps text-on-surface mb-4">Follow Us</h4>
+        <div class="flex gap-4">
+          <a href="#" class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-lg">thumb_up</span>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-lg">favorite</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-surface-variant/30 pt-8 text-center text-sm text-on-surface-variant">
+      <p>&copy; 2026 TWICE KEYCHAIN. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL POPUP UNTUK MENAMPILKAN DATA DARI BACKEND -->
+<div id="info-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-[#FFFDF5] border-4 border-[#F46B8D] rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl relative">
+    <button id="close-modal" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#F46B8D] text-white font-bold flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">✕</button>
+    <h3 id="modal-title" class="font-serif text-2xl font-bold text-[#2F3E46] mb-4"></h3>
+    <p id="modal-content" class="text-[#2F3E46] leading-relaxed text-sm md:text-base mb-6 whitespace-pre-line"></p>
+    <a id="modal-action-btn" href="#" target="_blank" class="hidden w-full py-3 bg-[#F46B8D] text-white rounded-full font-bold text-center block shadow-md hover:bg-[#d85575] transition-all">Buka di Google Maps 🗺️</a>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('info-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalContent = document.getElementById('modal-content');
+  const modalActionBtn = document.getElementById('modal-action-btn');
+  const closeModal = document.getElementById('close-modal');
+
+  async function fetchStoreData(type) {
+    try {
+      const res = await fetch('/api/store-info');
+      const data = await res.json();
+      
+      if (type === 'about') {
+        modalTitle.innerText = 'About Us ✨';
+        modalContent.innerText = data.aboutUs;
+        modalActionBtn.classList.add('hidden');
+      } else if (type === 'location') {
+        modalTitle.innerText = 'Store Location 📍';
+        modalContent.innerText = `Kunjungi workshop kami di:\n\n${data.location.address}`;
+        modalActionBtn.href = data.location.mapsLink;
+        modalActionBtn.classList.remove('hidden');
+      }
+      modal.classList.remove('hidden');
+    } catch (err) {
+      alert('Gagal mengambil data dari server backend.');
+    }
+  }
+
+  document.getElementById('btn-about')?.addEventListener('click', () => fetchStoreData('about'));
+  document.getElementById('btn-location')?.addEventListener('click', () => fetchStoreData('location'));
+  closeModal?.addEventListener('click', () => modal.classList.add('hidden'));
+  window.addEventListener('click', (e) => { if (e.target === modal) modal.classList.add('hidden'); });
+</script>

@@ -1,0 +1,373 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Checkout | TWICE KEYCHAIN</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;family=Nunito+Sans:ital,wght@0,200;0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#e4e3db",
+                    "surface-container": "#f0eee6",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#1a4d5a",
+                    "background": "#fbf9f1",
+                    "tertiary-container": "#abd6a5",
+                    "surface-tint": "#864d61",
+                    "outline": "#837377",
+                    "secondary-container": "#b7e7f7",
+                    "pastel-green": "#C1E1C1",
+                    "tertiary": "#41673f",
+                    "on-secondary-container": "#3a6977",
+                    "on-surface": "#1b1c17",
+                    "on-primary-container": "#7b4458",
+                    "inverse-primary": "#fab3ca",
+                    "pastel-yellow": "#FFF5BA",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#ffb7ce",
+                    "inverse-surface": "#30312c",
+                    "secondary-fixed-dim": "#9ecede",
+                    "primary": "#864d61",
+                    "on-error": "#ffffff",
+                    "ink-blue": "#4A5568",
+                    "tertiary-fixed": "#c2eebb",
+                    "tertiary-fixed-dim": "#a7d2a1",
+                    "on-tertiary-fixed-variant": "#2a4f2a",
+                    "surface-container-highest": "#e4e3db",
+                    "on-surface-variant": "#514347",
+                    "on-background": "#1b1c17",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#ffd9e3",
+                    "on-primary-fixed": "#360b1e",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#dcdad2",
+                    "on-secondary-fixed": "#001f27",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#baeafa",
+                    "surface-container-high": "#eae8e0",
+                    "surface-bright": "#fbf9f1",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#f3f1e9",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#fbf9f1",
+                    "surface-container-low": "#f5f4ec",
+                    "on-primary-fixed-variant": "#6a364a",
+                    "secondary": "#356572",
+                    "on-tertiary-fixed": "#002204",
+                    "outline-variant": "#d5c2c6",
+                    "on-tertiary-container": "#385e37",
+                    "coral-red": "#FF9B9B",
+                    "primary-fixed-dim": "#fab3ca"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "40px",
+                    "container-max": "1200px",
+                    "gutter": "16px",
+                    "margin-mobile": "20px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Nunito Sans"],
+                    "price-display": ["Quicksand"],
+                    "headline-md": ["Quicksand"],
+                    "headline-lg-mobile": ["Quicksand"],
+                    "label-caps": ["Quicksand"],
+                    "display-hero": ["Quicksand"],
+                    "headline-lg": ["Quicksand"],
+                    "body-lg": ["Nunito Sans"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "price-display": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "display-hero": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .cloud-shadow {
+            box-shadow: 0 20px 40px rgba(74, 85, 104, 0.08);
+        }
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- Top Navigation (Shell suppressed for Transactional focus, using simplified header) -->
+<header class="sticky top-0 z-50 bg-surface/80 backdrop-blur-md h-16 flex items-center px-margin-mobile md:px-margin-desktop justify-between">
+<button class="p-2 rounded-full hover:bg-primary-container/20 transition-all active:scale-95" onclick="window.history.back()">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">TWICE KEYCHAIN</h1>
+<div class="w-10"></div> <!-- Spacer for symmetry -->
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Shipping & Forms -->
+<div class="lg:col-span-7 space-y-8">
+<!-- Progress Indicator -->
+<div class="flex items-center gap-4 mb-4">
+<div class="flex items-center gap-2">
+<span class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">1</span>
+<span class="font-headline-md text-headline-md text-primary">Shipping</span>
+</div>
+<div class="h-px flex-1 bg-outline-variant"></div>
+<div class="flex items-center gap-2 opacity-40">
+<span class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-sm">2</span>
+<span class="font-headline-md text-headline-md">Payment</span>
+</div>
+</div>
+<!-- Shipping Form -->
+<section class="bg-surface-container-lowest p-6 md:p-8 rounded-xl cloud-shadow border border-surface-variant/50">
+<h2 class="font-headline-md text-headline-md mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+                        Delivery Details
+                    </h2>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-1.5">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">FIRST NAME</label>
+<input class="w-full bg-surface-container border-2 border-transparent focus:border-secondary-container focus:ring-0 rounded-lg p-3 transition-all outline-none" placeholder="Nayeon" type="text">
+</div>
+<div class="space-y-1.5">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">LAST NAME</label>
+<input class="w-full bg-surface-container border-2 border-transparent focus:border-secondary-container focus:ring-0 rounded-lg p-3 transition-all outline-none" placeholder="Im" type="text">
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">SHIPPING ADDRESS</label>
+<input class="w-full bg-surface-container border-2 border-transparent focus:border-secondary-container focus:ring-0 rounded-lg p-3 transition-all outline-none" placeholder="123 Strawberry Lane" type="text">
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="space-y-1.5">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">CITY</label>
+<input class="w-full bg-surface-container border-2 border-transparent focus:border-secondary-container focus:ring-0 rounded-lg p-3 transition-all outline-none" placeholder="Seoul" type="text">
+</div>
+<div class="space-y-1.5">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">POSTAL CODE</label>
+<input class="w-full bg-surface-container border-2 border-transparent focus:border-secondary-container focus:ring-0 rounded-lg p-3 transition-all outline-none" placeholder="06000" type="text">
+</div>
+<div class="space-y-1.5">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">COUNTRY</label>
+<select class="w-full bg-surface-container border-2 border-transparent focus:border-secondary-container focus:ring-0 rounded-lg p-3 transition-all outline-none appearance-none">
+<option>South Korea</option>
+<option>United States</option>
+<option>Japan</option>
+</select>
+</div>
+</div>
+</form>
+</section>
+<!-- Payment Selection (GoPay Focus) -->
+<section class="bg-surface-container-lowest p-6 md:p-8 rounded-xl cloud-shadow border border-surface-variant/50">
+<h2 class="font-headline-md text-headline-md mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">payments</span>
+                        Payment Method
+                    </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- GoPay Option (Active Style) -->
+<div class="relative border-2 border-primary bg-primary-container/10 p-4 rounded-xl cursor-pointer transition-all">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-[#00AED6] rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">qr_code_2</span>
+</div>
+<span class="font-headline-md text-headline-md text-primary">GoPay / QRIS</span>
+</div>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="text-xs text-on-primary-container/80">Scan QRIS code instantly at checkout.</p>
+</div>
+<!-- Credit Card Option (Inactive) -->
+<div class="border-2 border-surface-variant p-4 rounded-xl opacity-60 hover:opacity-100 transition-all cursor-pointer">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-surface-variant rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">credit_card</span>
+</div>
+<span class="font-headline-md text-headline-md">Credit Card</span>
+</div>
+<p class="text-xs">Visa, Mastercard, or AMEX.</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Order Summary -->
+<aside class="lg:col-span-5">
+<div class="sticky top-24 space-y-6">
+<div class="bg-surface-container-high p-6 md:p-8 rounded-xl cloud-shadow border border-surface-variant/30">
+<h2 class="font-headline-md text-headline-md mb-6">Order Summary</h2>
+<!-- Cart Items -->
+<div class="space-y-4 mb-8">
+<div class="flex items-center gap-4">
+<div class="w-20 h-20 bg-white rounded-lg overflow-hidden shrink-0 border border-surface-variant/30">
+<img class="w-full h-full object-cover" data-alt="A macro close-up of a high-quality acrylic keychain featuring a vibrant illustration of a K-pop idol in a pastel aesthetic. The keychain has a gold star-shaped clasp and hangs against a soft cream-colored background. Lighting is soft and bright, emphasizing the high-gloss finish and tactile quality of the item. The scene is clean, cute, and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY7xpktmMwmL784NuGU5AS7fukaZ2ZL4k79JknYX9zBmRUb1kCO6xK8pDPWkPm59usvthZ7IOXtOFar4S97BzxKEvKjwjpIVSLT19zqRz-gySd3htcfhseg-znuTWWXmH_HY1hwkDwaHirddbGahIrIPubzhQyLJMGRq90m43mqXhazeRVg2oJ_WNMyKMb8LPAqbwKxNMPhsXWv2NzraP1BpWPtVI9k-BGacD3yzRHQEmpOOB6ZOzj">
+</div>
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-md text-primary leading-tight">Mina Penguin Charm</h3>
+<p class="text-sm text-on-surface-variant">Limited Edition Ver.</p>
+<div class="flex justify-between items-center mt-1">
+<span class="font-price-display text-price-display text-secondary">$18.00</span>
+<span class="text-sm font-bold bg-white px-2 py-1 rounded-full">Qty: 1</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-20 h-20 bg-white rounded-lg overflow-hidden shrink-0 border border-surface-variant/30">
+<img class="w-full h-full object-cover" data-alt="A set of colorful decorative stickers and a small heart-shaped keychain accessory displayed on a pristine white marble surface. The colors are soft pastels including lavender, mint, and strawberry pink. The lighting is airy and ethereal, creating a cozy and nostalgic Gen Z room vibe. The composition is artistic and minimalist." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCj8pwAh6U2WwArJb3xhjdS8uBfn6XmKkxcsE_tn7-woryBIvLS_ZpWt9zmOiaB4A5kHKXDDUK4KdCUv26FeKfLxV4Pd6ye0TXKbdlAV53_wGw9ja__T8SSxKtloRn1wVQ5426eS2bFerCAAb69UbwGUG0QGMVTOZuhsWawhtecliIzQjymkYoN--4nboMsNLv_yRxceEVaTSuccpXX1En5Gm1GqSkMRNmMTUvXQ22O9jkD42jET3zm">
+</div>
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-md text-primary leading-tight">Twice Deco Sticker Pack</h3>
+<p class="text-sm text-on-surface-variant">Holographic Finish</p>
+<div class="flex justify-between items-center mt-1">
+<span class="font-price-display text-price-display text-secondary">$12.00</span>
+<span class="text-sm font-bold bg-white px-2 py-1 rounded-full">Qty: 1</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Price Breakdown -->
+<div class="space-y-3 pt-6 border-t border-surface-variant/50">
+<div class="flex justify-between text-on-surface-variant">
+<span>Subtotal</span>
+<span>$30.00</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Shipping</span>
+<span class="text-pastel-green font-bold">FREE</span>
+</div>
+<div class="flex justify-between pt-3 border-t border-surface-variant/50">
+<span class="font-headline-md text-headline-md">Total</span>
+<span class="font-price-display text-headline-lg text-primary">$30.00</span>
+</div>
+</div>
+<!-- Pay Button -->
+<button class="w-full mt-8 bg-primary text-white py-4 rounded-full font-headline-md text-headline-md flex items-center justify-center gap-2 hover:bg-on-primary-fixed-variant transition-all active:scale-95 shadow-lg shadow-primary/20" id="pay-button">
+                            Pay with GoPay
+                            <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<!-- Trust Badge -->
+<div class="flex items-center justify-center gap-4 text-on-surface-variant opacity-60 py-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="text-xs uppercase tracking-widest font-bold">Secure Checkout</span>
+</div>
+<div class="w-1 h-1 bg-surface-variant rounded-full"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">verified</span>
+<span class="text-xs uppercase tracking-widest font-bold">Authorized Merchant</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- QRIS Modal Overlay -->
+<div class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-ink-blue/40 backdrop-blur-sm" id="qris-modal">
+<div class="bg-white w-full max-w-md rounded-xl cloud-shadow p-8 relative animate-float">
+<button class="absolute top-4 right-4 text-on-surface-variant hover:text-primary transition-colors" id="close-modal">
+<span class="material-symbols-outlined">close</span>
+</button>
+<div class="text-center">
+<div class="mb-4 inline-flex p-3 bg-secondary-container/20 rounded-2xl">
+<img alt="QRIS" class="h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCp_e-k6tIHCx4a_2tVBc-a_w93SFcEqGS2SuT4Trtot7h7-F2Z4UnOij51eNASGLmrT86YIytYneShwt7v2IzIhStCpICKbYOeWK5AgIItSXWyn0xphpuHghFAUunWRSzTnv-cIbyP_VtpEmGCclAsLU4zaE9kWl6jpNQBgsG2U0bPgmG-A8iagRmdnyu1uin3jRxuWxXYNBnTPsK7BBHSABaKv6w8d--8UQJujkprlK5cYg9Go3dA">
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Scan to Pay</h3>
+<p class="text-on-surface-variant mb-6">Total Amount: <span class="text-primary font-bold">$30.00</span></p>
+<!-- QR Placeholder -->
+<div class="bg-surface-container rounded-xl p-6 mb-6 aspect-square flex items-center justify-center border-4 border-dashed border-primary/20 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/5 to-secondary/5"></div>
+<div class="z-10 bg-white p-4 rounded-lg shadow-md">
+<span class="material-symbols-outlined text-[120px] text-on-surface" style="font-variation-settings: 'wght' 200;">qr_code_2</span>
+</div>
+<!-- Scanning line animation -->
+<div class="absolute w-full h-1 bg-primary/30 top-0 left-0 animate-[scan_2s_linear_infinite]"></div>
+</div>
+<div class="flex items-center justify-center gap-4 py-3 bg-pastel-yellow/30 rounded-lg">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<span class="text-sm font-bold text-on-primary-container">Waiting for payment...</span>
+</div>
+<p class="mt-6 text-xs text-on-surface-variant">
+                    Please open your GoPay, Dana, or Bank App to scan the QRIS code.
+                </p>
+</div>
+</div>
+</div>
+<style>
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+    </style>
+<script>
+        const payButton = document.getElementById('pay-button');
+        const qrisModal = document.getElementById('qris-modal');
+        const closeModal = document.getElementById('close-modal');
+
+        payButton.addEventListener('click', () => {
+            qrisModal.classList.remove('hidden');
+            qrisModal.classList.add('flex');
+            // Prevent scrolling on body when modal is open
+            document.body.style.overflow = 'hidden';
+        });
+
+        const hideModal = () => {
+            qrisModal.classList.add('hidden');
+            qrisModal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        };
+
+        closeModal.addEventListener('click', hideModal);
+
+        // Close on outside click
+        qrisModal.addEventListener('click', (e) => {
+            if (e.target === qrisModal) {
+                hideModal();
+            }
+        });
+
+        // Small input interaction
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('label').classList.replace('text-on-surface-variant', 'text-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.querySelector('label').classList.replace('text-primary', 'text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>
