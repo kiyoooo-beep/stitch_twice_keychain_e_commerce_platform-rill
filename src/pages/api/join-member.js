@@ -20,20 +20,31 @@ export async function POST({ request }) {
 
     const memberId = "TWICE-" + Math.floor(100000 + Math.random() * 900000);
     const voucherCode = "KAWAII10";
+    const gmailUser = import.meta.env.GMAIL_USER;
+    const gmailAppPassword = import.meta.env.GMAIL_APP_PASSWORD;
 
-    // 1. SETTING GMAIL SEBAGAI PENGIRIM MENGGUNAKAN APP PASSWORD
+    if (!gmailUser || !gmailAppPassword) {
+      return new Response(JSON.stringify({
+        success: false,
+        message: "Konfigurasi email belum tersedia."
+      }), {
+        status: 503,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'arzaliafithri@gmail.com', // Email kamu yang bertugas ngirim
-        pass: 'sbzlfzzshegtpjdx'         // App Password kamu (tanpa spasi)
+        user: gmailUser,
+        pass: gmailAppPassword
       }
     });
 
     // 2. KIRIM EMAIL KE EMAIL DOSEN / PENDAFTAR
     try {
       await transporter.sendMail({
-        from: '"TWICE KEYCHAIN" <arzaliafithri@gmail.com>',
+        from: `"TWICE KEYCHAIN" <${gmailUser}>`,
         to: email, // Otomatis terkirim ke email apapun yang diketik di form web
         subject: '🎀 YEY! Kamu Resmi Jadi Member TWICE KEYCHAIN - Ini Voucher Spesialmu!',
         html: `

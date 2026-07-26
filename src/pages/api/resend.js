@@ -1,19 +1,12 @@
-// src/lib/resend.js
-
 export async function sendCustomerConfirmation({ to, nama, orderCode, items, total }) {
   console.log("🚀 [RESEND] Mulai memproses email...");
   console.log("👉 Target email pelanggan dari form web:", to);
 
   const resendApiKey = import.meta.env.RESEND_API_KEY;
-  
-  // KITA HARDCODE SEMENTARA
-  const fromEmail = 'onboarding@resend.dev'; 
-  
-  // 🔥 GANTI TEKS INI DENGAN EMAIL AKUN RESEND KAMU! 🔥
-  const emailTujuan = 'arzaliafithri@gmail.com'; 
+  const fromEmail = import.meta.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
-  if (!resendApiKey) {
-    console.error("❌ [RESEND] GAGAL: API Key tidak terbaca! Pastikan file .env benar dan nyalakan ulang server.");
+  if (!resendApiKey || !to) {
+    console.error("❌ [RESEND] GAGAL: Konfigurasi API atau email tujuan tidak tersedia.");
     return;
   }
 
@@ -22,7 +15,7 @@ export async function sendCustomerConfirmation({ to, nama, orderCode, items, tot
     .join('');
 
   try {
-    console.log(`⏳ [RESEND] Mengirim email "paksaan" ke: ${emailTujuan}...`);
+    console.log("⏳ [RESEND] Mengirim email konfirmasi...");
     
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -32,7 +25,7 @@ export async function sendCustomerConfirmation({ to, nama, orderCode, items, tot
       },
       body: JSON.stringify({
         from: fromEmail,
-        to: [emailTujuan], // <--- INI KUNCI UTAMANYA BIAR TEMBUS!
+        to: [to],
         subject: `Pembayaran Diterima - Order ${orderCode}`,
         html: `
           <div style="font-family: sans-serif; color: #333;">
