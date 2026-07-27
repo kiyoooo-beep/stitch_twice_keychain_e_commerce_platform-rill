@@ -1,5 +1,5 @@
 // src/pages/api/confirm-payment.js
-import { sendCustomerConfirmation } from 'src/pages/api/resend';
+import { sendCustomerConfirmation } from 'src/pages/api/resend.js';
 
 export const prerender = false;
 
