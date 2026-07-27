@@ -1,7 +1,9 @@
 import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
+import vercel from '@astrojs/vercel/serverless';
+// (biarkan import lain seperti tailwind kalau ada)
 
 export default defineConfig({
   output: 'server',
-  adapter: node({ mode: 'standalone' }),
+  adapter: vercel(),
+  // (biarkan integrasi lain kalau ada)
 });
