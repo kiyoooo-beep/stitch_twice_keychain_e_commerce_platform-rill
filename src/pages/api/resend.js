@@ -1,63 +1,56 @@
-// src/lib/resend.js
+import nodemailer from 'nodemailer';
 
 export async function sendCustomerConfirmation({ to, nama, orderCode, items, total }) {
-  console.log("🚀 [RESEND] Mulai memproses email...");
-  console.log("👉 Target email pelanggan dari form web:", to);
-
-  const resendApiKey = import.meta.env.RESEND_API_KEY;
-  
-  // KITA HARDCODE SEMENTARA
-  const fromEmail = 'onboarding@resend.dev'; 
-  
-  // 🔥 GANTI TEKS INI DENGAN EMAIL AKUN RESEND KAMU! 🔥
-  const emailTujuan = 'arzaliafithri@gmail.com'; 
-
-  if (!resendApiKey) {
-    console.error("❌ [RESEND] GAGAL: API Key tidak terbaca! Pastikan file .env benar dan nyalakan ulang server.");
-    return;
-  }
-
-  const itemsHtml = (items || [])
-    .map((item) => `<li>${item.name} x${item.quantity || item.qty || 1}</li>`)
-    .join('');
-
   try {
-    console.log(`⏳ [RESEND] Mengirim email "paksaan" ke: ${emailTujuan}...`);
-    
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json', 
-        Authorization: `Bearer ${resendApiKey}` 
+    // 1. Siapkan transporter menggunakan Gmail SMTP dan App Password
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: import.meta.env.GMAIL_USER, 
+        pass: import.meta.env.GMAIL_APP_PASSWORD, 
       },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: [emailTujuan], // <--- INI KUNCI UTAMANYA BIAR TEMBUS!
-        subject: `Pembayaran Diterima - Order ${orderCode}`,
-        html: `
-          <div style="font-family: sans-serif; color: #333;">
-            <h2>Halo ${nama || 'Kak'}, pembayaran kamu sudah kami terima! 🎉</h2>
-            <p><b>Kode Order:</b> ${orderCode}</p>
-            <p><b>Total:</b> Rp${Number(total).toLocaleString('id-ID')}</p>
-            <p><b>Pesanan:</b></p>
-            <ul>${itemsHtml}</ul>
-            <p>Pesanan kamu sedang kami proses. Terima kasih sudah belanja! 🥰</p>
-          </div>
-        `,
-      }),
     });
 
-    if (!res.ok) {
-      const errorText = await res.text();
-      console.error("❌ [RESEND] DITOLAK OLEH SERVER RESEND! Detail:", errorText);
-      return;
-    }
+    // 2. Susun daftar barang pesanan jadi format HTML
+    const itemsHtml = (items || [])
+      .map((item) => `<li style="margin-bottom: 5px;">${item.name} (x${item.quantity || item.qty || 1})</li>`)
+      .join('');
 
-    const data = await res.json();
-    console.log("✅ [RESEND] SUKSES TERKIRIM! Cek kotak masuk/spam email kamu sekarang! ID Resend:", data.id);
-    return data;
+    // 3. Desain isi pesan emailnya biar aesthetic
+    const htmlBody = `
+      <div style="font-family: 'Quicksand', sans-serif, Arial; max-width: 600px; margin: 0 auto; padding: 20px; border: 2px dashed #ffe6ed; border-radius: 15px; background-color: #FFFDF5; color: #2F3E46;">
+        <h2 style="color: #F46B8D; text-align: center;">Terima kasih atas pesananmu, ${nama}! ♡</h2>
+        <p>Yay! Pesanan kamu dengan kode <strong>#${orderCode}</strong> sudah masuk dan sedang kami siapkan.</p>
+        
+        <div style="background-color: white; padding: 15px; border-radius: 10px; margin: 20px 0; border: 1px solid #ffe6ed;">
+          <h3 style="color: #F46B8D; margin-top: 0;">Detail Pesanan:</h3>
+          <ul style="padding-left: 20px;">
+            ${itemsHtml}
+          </ul>
+          <hr style="border: 1px solid #ffe6ed;" />
+          <p style="font-size: 16px; font-weight: bold; text-align: right;">Total Pembayaran: Rp ${total}</p>
+        </div>
+
+        <p>Jika kamu ada pertanyaan seputar pesanan ini, jangan ragu untuk membalas email ini ya, Bestie!</p>
+        <br/>
+        <p style="margin-bottom: 0;">Salam hangat,</p>
+        <p style="font-weight: bold; color: #F46B8D; margin-top: 5px;">Tim TWICE KEYCHAIN ✧</p>
+      </div>
+    `;
+
+    // 4. Kirim email menggunakan data asli pelanggan (variabel 'to')
+    const info = await transporter.sendMail({
+      from: `"TWICE KEYCHAIN" <${import.meta.env.GMAIL_USER}>`,
+      to: to, // Menggunakan email asli yang diinput saat form shipping!
+      subject: `Konfirmasi Pesanan Diterima - TWICE KEYCHAIN (#${orderCode})`,
+      html: htmlBody,
+    });
+
+    console.log("✅ [NODEMAILER] Email SUKSES dikirim ke pelanggan:", to);
+    return true;
 
   } catch (error) {
-    console.error("❌ [RESEND] KONEKSI TERPUTUS:", error);
+    console.error("❌ [NODEMAILER] Waduh, gagal mengirim email:", error);
+    return false;
   }
 }
