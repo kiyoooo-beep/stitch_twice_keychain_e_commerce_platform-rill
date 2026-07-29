@@ -49,3 +49,4 @@ out/
 
 # Misc
 .cache/
+.vercel
