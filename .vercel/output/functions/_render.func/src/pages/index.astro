@@ -1,0 +1,443 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+
+// Data produk (6 buah menyesuaikan data yang valid)
+const trendingProducts = [
+  {
+    id: 1,
+    name: 'Red Apple Charm Bag',
+    price: 'Rp25.000',
+    image: 'https://ennesvjjsyinwqthhqtu.supabase.co/storage/v1/object/public/product-images/Product%201.jpg',
+    badge: 'POPULAR',
+  },
+  {
+    id: 2,
+    name: 'Clay Keychain Custom',
+    price: 'Rp15.000',
+    image: 'https://ennesvjjsyinwqthhqtu.supabase.co/storage/v1/object/public/product-images/Product%202.jpg',
+    badge: '',
+  },
+  {
+    id: 3,
+    name: 'Fish Keychain',
+    price: 'Rp25.000',
+    image: 'https://ennesvjjsyinwqthhqtu.supabase.co/storage/v1/object/public/product-images/Product%203.jpg',
+    badge: '',
+  },
+  {
+    id: 4,
+    name: 'Miawberry Crystal Keychain',
+    price: 'Rp25.000',
+    image: 'https://ennesvjjsyinwqthhqtu.supabase.co/storage/v1/object/public/product-images/Product%204.jpg',
+    badge: '',
+  },
+  {
+    id: 5,
+    name: 'Crownberries crystal Charm',
+    price: 'Rp30.000',
+    image: 'https://ennesvjjsyinwqthhqtu.supabase.co/storage/v1/object/public/product-images/Product%205.jpg',
+    badge: 'BESTIE FAV',
+  },
+  {
+    id: 6,
+    name: 'Buddy Brownie Series Keychain',
+    price: 'Rp20.000',
+    image: 'https://ennesvjjsyinwqthhqtu.supabase.co/storage/v1/object/public/product-images/Product%206.jpg',
+    badge: '',
+  },
+];
+
+// 5 Variasi bentuk bingkai unik (Artsy Frames)
+const frameStyles = [
+  { container: "rounded-t-[80px] rounded-b-2xl border-[#F46B8D] bg-[#FFD1DC] aspect-[3/4]", img: "rounded-t-[72px] rounded-b-xl" },
+  { container: "rounded-full border-[#FFB238] bg-[#FFECCC] aspect-[3/4]", img: "rounded-full" },
+  { container: "rounded-[40px_10px_40px_10px] border-[#6BC4C4] bg-[#D4F0F0] aspect-[3/4]", img: "rounded-[32px_8px_32px_8px]" },
+  { container: "rounded-t-2xl rounded-b-[80px] border-[#86C275] bg-[#E1F3D8] aspect-[3/4]", img: "rounded-t-xl rounded-b-[72px]" },
+  { container: "rounded-tl-[70px] rounded-br-[70px] rounded-tr-xl rounded-bl-xl border-[#B39DDB] bg-[#E8EAF6] aspect-[3/4]", img: "rounded-tl-[64px] rounded-br-[64px] rounded-tr-lg rounded-bl-lg" }
+];
+
+// Data Ulasan Pelanggan (Gelembung Aesthetic)
+const reviews = [
+  { 
+    name: "Gholi U", 
+    text: "Gemas banget! Beliin ini buat kado dan kualitas Claynya besttt!, bentuknya juga rapi banget. 💖", 
+    shape: "border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;", 
+    bg: "bg-[#FFD1DC]", 
+    border: "border-[#F46B8D]",
+    icon: "🎀"
+  },
+  { 
+    name: "Kittendust", 
+    text: "Super cute! Pengirimannya cepat banget dan packaging-nya aman. Bakal langganan terus buat koleksi di tas. ✨", 
+    shape: "border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;", 
+    bg: "bg-[#E1F3D8]", 
+    border: "border-[#86C275]",
+    icon: "🌷"
+  },
+  { 
+    name: "Sabrina C", 
+    text: "Warnanya pastel banget persis kayak di foto! Nyesel cuma beli satu, next pasti borong yang seri bentuk hewan. 🌸", 
+    shape: "border-radius: 70% 30% 40% 60% / 50% 70% 30% 50%;", 
+    bg: "bg-[#D4F0F0]", 
+    border: "border-[#6BC4C4]",
+    icon: "☁️"
+  }
+];
+---
+
+<PageLayout title="Home">
+  
+  <style>
+    /* Efek Bintang Bersinar (Sparkle Shape) */
+    .sparkle-star {
+      background-color: white;
+      clip-path: polygon(50% 0%, 61% 35%, 100% 50%, 61% 65%, 50% 100%, 39% 65%, 0% 50%, 39% 35%);
+      box-shadow: 0 0 12px 3px rgba(255, 255, 255, 0.9);
+    }
+
+    @keyframes sparkle-anim {
+      0%, 100% { opacity: 0.2; transform: scale(0.7) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1.2) rotate(15deg); }
+    }
+    .animate-sparkle-1 { animation: sparkle-anim 2s infinite ease-in-out; }
+    .animate-sparkle-2 { animation: sparkle-anim 3s infinite ease-in-out 1s; }
+    .animate-sparkle-3 { animation: sparkle-anim 2.5s infinite ease-in-out 0.5s; }
+
+    /* Animasi Mengambang (Floating Effect) */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(-3deg); }
+      50% { transform: translateY(-12px) rotate(3deg); }
+    }
+    @keyframes float-delayed {
+      0%, 100% { transform: translateY(0px) rotate(3deg); }
+      50% { transform: translateY(-15px) rotate(-3deg); }
+    }
+    .animate-float-left { animation: float 4s infinite ease-in-out; }
+    .animate-float-right { animation: float-delayed 4.5s infinite ease-in-out; }
+
+    /* Menyembunyikan Scrollbar untuk Slider */
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+
+  <!-- WRAPPER PENJEBOL BATAS (FULL EDGE-TO-EDGE) -->
+  <div class="w-[100vw] relative left-1/2 -translate-x-1/2 overflow-x-hidden">
+
+    <!-- 1. HERO SECTION PINK -->
+    <section class="relative bg-[#F46B8D] text-white pt-40 pb-28 w-full overflow-hidden -mt-24">
+      
+      <!-- BUNGA BANYAK DI SISI KIRI -->
+      <div class="absolute -left-8 bottom-[-20px] w-52 h-72 z-0 pointer-events-none transform -rotate-12">
+        <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+          <path d="M 0 300 Q 80 200 120 100" stroke="#7CB342" stroke-width="8" stroke-linecap="round" />
+          <path d="M 60 220 Q 20 180 30 140" stroke="#7CB342" stroke-width="6" stroke-linecap="round" />
+          <path d="M 120 150 C 160 120 180 160 120 180 Z" fill="#7CB342" />
+          <path d="M 60 220 C 20 200 40 160 80 180 Z" fill="#7CB342" />
+          <circle cx="120" cy="80" r="14" fill="#FBC02D" />
+          <circle cx="140" cy="100" r="14" fill="#FBC02D" />
+          <circle cx="130" cy="125" r="14" fill="#FBC02D" />
+          <circle cx="105" cy="120" r="14" fill="#FBC02D" />
+          <circle cx="100" cy="95" r="14" fill="#FBC02D" />
+          <circle cx="120" cy="105" r="10" fill="#FFFDF5" />
+          <circle cx="30" cy="120" r="10" fill="#FBC02D" />
+          <circle cx="45" cy="135" r="10" fill="#FBC02D" />
+          <circle cx="40" cy="155" r="10" fill="#FBC02D" />
+          <circle cx="20" cy="150" r="10" fill="#FBC02D" />
+          <circle cx="15" cy="135" r="10" fill="#FBC02D" />
+          <circle cx="30" cy="140" r="6" fill="#FFFDF5" />
+        </svg>
+      </div>
+
+      <div class="absolute left-10 bottom-[-40px] w-44 h-60 z-0 pointer-events-none transform rotate-6 opacity-90">
+        <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+          <path d="M 0 300 Q 60 180 100 80" stroke="#7CB342" stroke-width="7" stroke-linecap="round" />
+          <circle cx="100" cy="80" r="14" fill="#FFEB3B" />
+          <circle cx="118" cy="98" r="14" fill="#FFEB3B" />
+          <circle cx="100" cy="115" r="14" fill="#FFEB3B" />
+          <circle cx="82" cy="98" r="14" fill="#FFEB3B" />
+          <circle cx="100" cy="98" r="10" fill="#FFFFFF" />
+        </svg>
+      </div>
+
+      <!-- BUNGA BANYAK DI SISI KANAN -->
+      <div class="absolute -right-4 bottom-[-10px] w-44 h-64 z-0 pointer-events-none transform rotate-12">
+        <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+          <path d="M 200 300 Q 120 180 80 80" stroke="#7CB342" stroke-width="8" stroke-linecap="round" />
+          <path d="M 120 180 C 80 160 100 120 140 140 Z" fill="#7CB342" />
+          <circle cx="80" cy="80" r="14" fill="#FFFFFF" />
+          <circle cx="100" cy="95" r="14" fill="#FFFFFF" />
+          <circle cx="90" cy="120" r="14" fill="#FFFFFF" />
+          <circle cx="65" cy="115" r="14" fill="#FFFFFF" />
+          <circle cx="60" cy="90" r="14" fill="#FFFFFF" />
+          <circle cx="80" cy="100" r="9" fill="#FBC02D" />
+        </svg>
+      </div>
+
+      <div class="absolute right-16 bottom-[-30px] w-40 h-56 z-0 pointer-events-none transform -rotate-6 opacity-90">
+        <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+          <path d="M 200 300 Q 100 160 60 60" stroke="#7CB342" stroke-width="7" stroke-linecap="round" />
+          <circle cx="60" cy="60" r="12" fill="#FFC107" />
+          <circle cx="78" cy="78" r="12" fill="#FFC107" />
+          <circle cx="60" cy="94" r="12" fill="#FFC107" />
+          <circle cx="42" cy="78" r="12" fill="#FFC107" />
+          <circle cx="60" cy="78" r="8" fill="#FFFFFF" />
+        </svg>
+      </div>
+
+      <!-- EFEK CAHAYA BINTANG BERSINAR -->
+      <div class="absolute top-28 left-24 w-6 h-6 sparkle-star z-10 pointer-events-none animate-sparkle-1"></div>
+      <div class="absolute top-44 left-14 w-4 h-4 sparkle-star z-10 pointer-events-none animate-sparkle-2"></div>
+      <div class="absolute bottom-20 left-32 w-7 h-7 sparkle-star z-10 pointer-events-none animate-sparkle-3"></div>
+      <div class="absolute top-36 right-28 w-6 h-6 sparkle-star z-10 pointer-events-none animate-sparkle-2"></div>
+      <div class="absolute bottom-28 right-20 w-5 h-5 sparkle-star z-10 pointer-events-none animate-sparkle-1"></div>
+
+      <!-- BINGKAI OVAL KIRI KANAN -->
+      <div class="hidden xl:block absolute left-[12%] top-1/2 -translate-y-1/2 z-10 pointer-events-none animate-float-left">
+        <div class="w-32 h-44 rounded-full border-[4px] border-[#B39DDB] bg-[#EDE7F6] p-2.5 shadow-xl flex items-center justify-center overflow-hidden">
+          <img src="https://ennesvjjsyinwqthhqtu.supabase.co/storage/v1/object/public/product-images/Product%202.jpg" alt="Charm Oval Left" class="w-full h-full object-cover rounded-full" />
+        </div>
+      </div>
+
+      <div class="hidden xl:block absolute right-[12%] top-1/2 -translate-y-1/2 z-10 pointer-events-none animate-float-right">
+        <div class="w-32 h-44 rounded-full border-[4px] border-[#B39DDB] bg-[#EDE7F6] p-2.5 shadow-xl flex items-center justify-center overflow-hidden">
+          <img src="https://ennesvjjsyinwqthhqtu.supabase.co/storage/v1/object/public/product-images/Product%203.jpg" alt="Charm Oval Right" class="w-full h-full object-cover rounded-full" />
+        </div>
+      </div>
+
+      <!-- Kontainer Teks Utama -->
+      <div class="w-full px-6 flex flex-col items-center relative z-20 max-w-3xl mx-auto">
+        <span class="bg-white/90 text-[#F46B8D] px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase mb-6 shadow-sm border-[2px] border-[#F46B8D]">
+          The Miracle of Charm
+        </span>
+        
+        <h4 class="font-serif italic text-3xl md:text-4xl mb-1 text-pink-100">TWICE</h4>
+        <h1 class="font-serif text-7xl md:text-9xl font-bold tracking-tight mb-6 text-center" style="font-family: 'Quicksand', sans-serif;">
+          KEYCHAIN
+        </h1>
+        
+        <p class="max-w-xl mx-auto text-pink-100 font-medium mb-10 text-lg leading-relaxed text-center">
+          Collect moments, not things starting with the cutest companion for your keys and bags. Clip on your new favorite obsession.
+        </p>
+
+        <a href="/shop" class="bg-white text-[#F46B8D] font-bold px-10 py-4 rounded-full hover:scale-105 active:scale-95 transition-all shadow-[4px_4px_0_0_rgba(157,43,71,0.3)]">
+          Explore The Magic
+        </a>
+      </div>
+    </section>
+
+    <!-- PEMBATAS GELOMBANG -->
+    <div class="w-full leading-none -mt-1 z-20 relative bg-[#FFFDF5]">
+      <svg viewBox="0 0 1440 100" class="w-full h-10 md:h-16 text-[#F46B8D] fill-current block" preserveAspectRatio="none">
+        <path d="M0,0 C120,100 240,100 360,0 C480,100 600,100 720,0 C840,100 960,100 1080,0 C1200,100 1320,100 1440,0 L1440,0 L0,0 Z"></path>
+      </svg>
+    </div>
+
+    <!-- 2. CONTENT SECTION CREAM (PRODUK & ULASAN) -->
+    <section class="bg-[#FFFDF5] w-full min-h-screen pt-16 pb-24 px-4 md:px-12 text-center overflow-hidden relative">
+      
+      <!-- Header Produk -->
+      <div class="w-full max-w-7xl mx-auto mb-16 relative z-10">
+        <h2 class="font-serif text-4xl md:text-5xl text-[#2F3E46] font-bold mb-4" style="font-family: 'Quicksand', sans-serif;">
+          Trending <span class="italic font-light text-[#F46B8D]">Now</span>
+        </h2>
+        <p class="text-[#6D777B]">
+          A little piece of joy, handcrafted to travel with you.
+        </p>
+        
+        <!-- HIASAN FLORAL TENGAH -->
+        <div class="relative w-full max-w-xl mx-auto h-24 mt-8 flex justify-center">
+          <svg viewBox="0 0 400 100" class="w-full h-full absolute top-0 left-0" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 20 80 Q 100 20 200 60 T 380 40" stroke="#7CB342" stroke-width="6" stroke-linecap="round" />
+            <path d="M 260 50 C 280 -10 360 0 320 60 Z" fill="#7CB342" />
+            <path d="M 80 40 C 60 10 20 30 60 70 Z" fill="#7CB342" />
+          </svg>
+          <div class="absolute left-[20%] top-[40%] w-10 h-10 flex items-center justify-center -rotate-12">
+            <div class="absolute w-8 h-8 bg-[#F46B8D] rounded-full translate-x-2 -translate-y-2"></div>
+            <div class="absolute w-8 h-8 bg-[#F46B8D] rounded-full -translate-x-2 -translate-y-2"></div>
+            <div class="absolute w-8 h-8 bg-[#F46B8D] rounded-full translate-x-2 translate-y-2"></div>
+            <div class="absolute w-8 h-8 bg-[#F46B8D] rounded-full -translate-x-2 translate-y-2"></div>
+            <div class="absolute w-5 h-5 bg-[#FFFDF5] rounded-full z-10"></div>
+          </div>
+          <div class="absolute left-[45%] top-[10%] w-10 h-10 flex items-center justify-center rotate-45">
+            <div class="absolute w-8 h-8 bg-[#FBC02D] rounded-full translate-x-2 -translate-y-2"></div>
+            <div class="absolute w-8 h-8 bg-[#FBC02D] rounded-full -translate-x-2 -translate-y-2"></div>
+            <div class="absolute w-8 h-8 bg-[#FBC02D] rounded-full translate-x-2 translate-y-2"></div>
+            <div class="absolute w-8 h-8 bg-[#FBC02D] rounded-full -translate-x-2 translate-y-2"></div>
+            <div class="absolute w-5 h-5 bg-white rounded-full z-10"></div>
+          </div>
+          <div class="absolute right-[20%] top-[60%] w-8 h-8 flex items-center justify-center rotate-12">
+            <div class="absolute w-6 h-6 bg-white rounded-full translate-x-1.5 -translate-y-1.5"></div>
+            <div class="absolute w-6 h-6 bg-white rounded-full -translate-x-1.5 -translate-y-1.5"></div>
+            <div class="absolute w-6 h-6 bg-white rounded-full translate-x-1.5 translate-y-1.5"></div>
+            <div class="absolute w-6 h-6 bg-white rounded-full -translate-x-1.5 translate-y-1.5"></div>
+            <div class="absolute w-4 h-4 bg-[#FBC02D] rounded-full z-10"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDER PRODUK -->
+      <div class="relative w-full max-w-7xl mx-auto z-10 group">
+        
+        <!-- Tombol Geser Kiri -->
+        <button id="slider-btn-left" aria-label="Slide Left" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-6 z-20 w-12 h-12 bg-white border-2 border-[#F46B8D] text-[#F46B8D] rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-[#F46B8D] hover:text-white hover:scale-110">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <!-- Container Slider -->
+        <div id="product-slider" class="flex gap-10 md:gap-14 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-8 pt-4 px-4 md:px-8 hide-scrollbar">
+          {trendingProducts.map((product, index) => {
+            const frame = frameStyles[index % frameStyles.length];
+            
+            return (
+              <div class="flex flex-col items-center w-52 shrink-0 snap-center group/card">
+                <div class={`relative w-full ${frame.container} p-2.5 mb-6 shadow-sm border-[3px] transition-transform duration-500 group-hover/card:-translate-y-2 group-hover/card:shadow-md`}>
+                  
+                  {product.badge && (
+                    <span class="absolute -top-3 -right-3 z-10 bg-white text-[#F46B8D] border-2 border-[#F46B8D] px-3 py-1 rounded-full text-[10px] font-extrabold shadow-[2px_2px_0_0_#F46B8D] rotate-12 cursor-default">
+                      {product.badge}
+                    </span>
+                  )}
+                  
+                  <img 
+                    src={product.image} 
+                    alt={product.name}
+                    class={`w-full h-full object-cover ${frame.img} border-2 border-white/50`} 
+                  />
+                </div>
+                
+                <h4 class="font-bold text-[#2F3E46] text-base md:text-lg font-serif mb-1 text-center min-h-[3.5rem] flex items-center justify-center px-1" style="font-family: 'Quicksand', sans-serif;">{product.name}</h4>
+                <span class="text-md font-extrabold text-[#F46B8D] mb-4">{product.price}</span>
+                
+                <button
+                  class="w-full py-2.5 bg-white text-[#2F3E46] border-2 border-[#2F3E46] rounded-full font-bold text-sm hover:bg-[#F46B8D] hover:border-[#F46B8D] hover:text-white transition-all shadow-[3px_3px_0_0_rgba(47,62,70,0.15)] active:translate-y-1 active:shadow-none"
+                  data-add-to-cart
+                  data-product-id={product.id}
+                  data-product-name={product.name}
+                  data-product-price={product.price}
+                  data-product-image={product.image}
+                  data-product-variant="Trending Item"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            );
+          })}
+        </div>
+
+        <!-- Tombol Geser Kanan -->
+        <button id="slider-btn-right" aria-label="Slide Right" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-6 z-20 w-12 h-12 bg-white border-2 border-[#F46B8D] text-[#F46B8D] rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-[#F46B8D] hover:text-white hover:scale-110">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+
+      </div>
+
+      <!-- SECTION REVIEW -->
+      <div class="w-full mt-32 relative z-10">
+        
+        <h2 class="font-serif text-4xl md:text-5xl text-[#2F3E46] font-bold mb-16 text-center" style="font-family: 'Quicksand', sans-serif;">
+          What <span class="italic font-light text-[#F46B8D]">They Say</span>
+        </h2>
+
+        <div class="w-full max-w-6xl mx-auto flex flex-wrap justify-center gap-10 md:gap-14 px-4">
+          {reviews.map((review) => (
+            <div class="relative w-full max-w-xs md:max-w-sm group">
+              
+              <div 
+                class={`relative p-8 md:p-10 border-[3px] shadow-[4px_4px_0_0_rgba(47,62,70,0.1)] ${review.bg} ${review.border} hover:-translate-y-3 transition-transform duration-500`} 
+                style={review.shape}
+              >
+                <div class="flex gap-1 mb-4 justify-center">
+                  <span class="text-[#FBC02D] text-lg">★</span>
+                  <span class="text-[#FBC02D] text-lg">★</span>
+                  <span class="text-[#FBC02D] text-lg">★</span>
+                  <span class="text-[#FBC02D] text-lg">★</span>
+                  <span class="text-[#FBC02D] text-lg">★</span>
+                </div>
+                
+                <p class="text-[#2F3E46] font-medium mb-6 leading-relaxed">
+                  "{review.text}"
+                </p>
+                
+                <div class="font-bold text-[#F46B8D] font-serif tracking-wide text-lg" style="font-family: 'Quicksand', sans-serif;">
+                  — {review.name}
+                </div>
+              </div>
+              
+              <div class={`absolute -bottom-2 -right-2 w-12 h-12 bg-white border-[3px] ${review.border} rounded-full flex items-center justify-center text-xl shadow-[3px_3px_0_0_rgba(47,62,70,0.1)] rotate-12 group-hover:rotate-0 transition-transform duration-300 z-10`}>
+                 {review.icon}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </section>
+  </div>
+</PageLayout>
+
+<!-- SCRIPT CART & SLIDER LOGIC -->
+<script is:inline>
+  // Logika Cart
+  const buttons = document.querySelectorAll('[data-add-to-cart]');
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const productId = Number(button.getAttribute('data-product-id'));
+      const productName = button.getAttribute('data-product-name') || 'Product';
+      const productPrice = button.getAttribute('data-product-price') || '$0.00';
+      const productImage = button.getAttribute('data-product-image') || '';
+      const productVariant = button.getAttribute('data-product-variant') || '';
+
+      // Asumsi fungsi ini tersedia di window/module kamu
+      if (window.addToCart) {
+         window.addToCart({
+          id: productId,
+          name: productName,
+          price: productPrice,
+          image: productImage,
+          variant: productVariant,
+        });
+      }
+      
+      const originalText = button.innerHTML;
+      button.innerHTML = 'Added! 🛍️';
+      setTimeout(() => {
+        button.innerHTML = originalText;
+      }, 1000);
+    });
+  });
+
+  // Logika Slider
+  document.addEventListener('DOMContentLoaded', () => {
+    const slider = document.getElementById('product-slider');
+    const btnLeft = document.getElementById('slider-btn-left');
+    const btnRight = document.getElementById('slider-btn-right');
+
+    if (slider && btnLeft && btnRight) {
+      // Besaran scroll: Lebar card (approx 208px) + gap (approx 56px) = 264px
+      const scrollAmount = 264; 
+
+      btnLeft.addEventListener('click', () => {
+        slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      });
+
+      btnRight.addEventListener('click', () => {
+        slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      });
+    }
+  });
+</script>
+
+<script>
+  // Import fungsi addToCart dari module untuk di-bind ke window (agar terbaca oleh is:inline)
+  import { addToCart } from '@/scripts/cart.js';
+  window.addToCart = addToCart;
+</script>
