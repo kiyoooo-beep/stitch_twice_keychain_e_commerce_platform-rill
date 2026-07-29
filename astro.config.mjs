@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel';
+import node from '@astrojs/node';
 
 export default defineConfig({
-  output: 'server', // atau 'hybrid' / 'static' tergantung projekmu
-  adapter: vercel(),
+  output: 'server',
+  adapter: node({ mode: 'standalone' }),
 });
