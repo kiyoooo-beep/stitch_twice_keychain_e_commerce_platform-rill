@@ -6,38 +6,90 @@ const cartCount = getCartCount();
 ---
 
 <header
-  class="bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md font-headline-lg-mobile text-headline-lg-mobile docked full-width top-0 sticky shadow-[0_20px_40px_rgba(74,85,104,0.08)] flex justify-between items-center w-full px-margin-mobile h-16 z-50"
+  class="bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md font-headline-lg-mobile text-headline-lg-mobile docked full-width top-0 sticky shadow-[0_20px_40px_rgba(74,85,104,0.08)] flex justify-between items-center w-full px-4 md:px-margin-desktop h-16 z-50"
 >
-  <div class="flex items-center gap-4 h-full">
+  <div class="flex items-center gap-3 h-full">
+    <!-- Hamburger button for Mobile Navigation -->
+    <button
+      id="open-mobile-menu"
+      type="button"
+      class="md:hidden flex items-center justify-center p-2 rounded-full text-[#7A4B5E] hover:bg-primary-container/20 active:scale-95 transition-transform"
+      aria-label="Open navigation menu"
+    >
+      <span class="material-symbols-outlined text-2xl">menu</span>
+    </button>
+
     <div class="flex items-center h-full py-2">
-      <a href="/" class="flex items-center gap-3">
-        <img src="/1.png" alt="Logo Twice" class="h-10 md:h-12 w-auto object-contain" />
-        <span class="font-serif font-bold text-lg md:text-xl tracking-wide text-[#7A4B5E]">TWICE KEYCHAIN</span>
+      <a href="/" class="flex items-center gap-2 md:gap-3">
+        <img src="/1.png" alt="Logo Twice" class="h-9 md:h-12 w-auto object-contain" />
+        <span class="font-serif font-bold text-base sm:text-lg md:text-xl tracking-wide text-[#7A4B5E]">TWICE KEYCHAIN</span>
       </a>    
     </div>
   </div>
-  <div class="flex items-center gap-4">
+
+  <div class="flex items-center gap-3 md:gap-4">
     <nav class="hidden md:flex gap-3 items-center text-body-md font-body-md">
-      <a class="text-primary font-bold px-2 py-1" href="/">Home</a>
-      <a class="text-on-surface-variant hover:bg-primary-container/20 transition-colors px-2 py-1 rounded-full" href="/shop">Product</a>
+      <a class="text-primary font-bold px-2 py-1 hover:opacity-80 transition-opacity" href="/">Home</a>
+      <a class="text-on-surface-variant hover:bg-primary-container/20 transition-colors px-3 py-1.5 rounded-full" href="/shop">Product</a>
       
       <!-- Tombol About Us yang memanggil Backend API -->
-      <a href="/about" class="text-on-surface-variant hover:bg-primary-container/20 transition-colors px-2 py-1 rounded-full cursor-pointer text-left">About Us</a>
+      <a href="/about" class="text-on-surface-variant hover:bg-primary-container/20 transition-colors px-3 py-1.5 rounded-full cursor-pointer text-left">About Us</a>
       
       <!-- Tombol Join Member yang memanggil Backend API Modal -->
-      <button id="btn-member-backend" type="button" class="text-on-surface-variant hover:bg-primary-container/20 transition-colors px-2 py-1 rounded-full cursor-pointer text-left">Join Member</button>
+      <button id="btn-member-backend" type="button" class="text-on-surface-variant hover:bg-primary-container/20 transition-colors px-3 py-1.5 rounded-full cursor-pointer text-left">Join Member</button>
     </nav>
-    <button id="open-cart" type="button" class="active:scale-95 transition-transform duration-200 text-primary relative" aria-label="Open cart" aria-haspopup="dialog" aria-controls="cart-drawer">
-      <span class="material-symbols-outlined">shopping_cart</span>
+
+    <!-- Cart Button -->
+    <button id="open-cart" type="button" class="active:scale-95 transition-transform duration-200 text-primary relative p-2" aria-label="Open cart" aria-haspopup="dialog" aria-controls="cart-drawer">
+      <span class="material-symbols-outlined text-2xl">shopping_cart</span>
       <span
         data-cart-count
-        class:list={['absolute -top-1 -right-1 bg-coral-red text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center', { hidden: cartCount === 0 }]}
+        class:list={['absolute top-0 right-0 bg-coral-red text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm', { hidden: cartCount === 0 }]}
       >
         {cartCount}
       </span>
     </button>
   </div>
 </header>
+
+<!-- MOBILE NAVIGATION DRAWER & OVERLAY -->
+<div id="mobile-menu-overlay" class="fixed inset-0 z-[60] hidden bg-black/40 backdrop-blur-[2px] transition-opacity duration-300" aria-hidden="true"></div>
+<aside id="mobile-menu-drawer" class="fixed inset-y-0 left-0 z-[70] flex w-[280px] max-w-[85vw] -translate-x-full flex-col bg-[#FFFDF5] shadow-2xl transition-transform duration-300 border-r border-[#F46B8D]/20">
+  <div class="flex items-center justify-between border-b border-[#F46B8D]/20 px-5 py-4 bg-[#F46B8D]/10">
+    <div class="flex items-center gap-2">
+      <img src="/1.png" alt="Logo Twice" class="h-8 w-auto object-contain" />
+      <span class="font-serif font-bold text-base text-[#7A4B5E]">TWICE KEYCHAIN</span>
+    </div>
+    <button id="close-mobile-menu" type="button" class="rounded-full p-1 text-[#7A4B5E] hover:bg-[#F46B8D]/20 transition-colors" aria-label="Close menu">
+      <span class="material-symbols-outlined text-2xl">close</span>
+    </button>
+  </div>
+  
+  <nav class="flex-1 space-y-2 p-5 font-medium text-gray-700">
+    <a href="/" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#F46B8D]/15 text-[#7A4B5E] font-bold transition-colors">
+      <span class="material-symbols-outlined text-xl">home</span>
+      Home
+    </a>
+    <a href="/shop" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#F46B8D]/15 hover:text-[#7A4B5E] transition-colors">
+      <span class="material-symbols-outlined text-xl">grid_view</span>
+      Product / Shop
+    </a>
+    <a href="/about" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#F46B8D]/15 hover:text-[#7A4B5E] transition-colors">
+      <span class="material-symbols-outlined text-xl">info</span>
+      About Us
+    </a>
+    <button id="mobile-btn-member-backend" type="button" class="w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#F46B8D]/15 text-[#F46B8D] font-bold transition-colors">
+      <span class="material-symbols-outlined text-xl">card_membership</span>
+      Join Member 💖
+    </button>
+  </nav>
+
+  <div class="p-5 border-t border-[#F46B8D]/20 bg-[#FFFDF5]">
+    <a href="/shop" class="block w-full py-3 bg-[#F46B8D] text-white font-bold text-center text-sm rounded-full shadow-md active:scale-95 transition-transform">
+      Explore Collection 🛍️
+    </a>
+  </div>
+</aside>
 
 <!-- MODAL POPUP DINAMIS UNTUK BACKEND -->
 <div id="backend-modal" class="fixed inset-0 z-[80] hidden flex items-center justify-center bg-black/50 backdrop-blur-[2px] p-4">
@@ -152,6 +204,28 @@ const cartCount = getCartCount();
   window.addEventListener('cart:updated', () => { syncCartBadge(); renderCartDrawer(); });
 
 
+  // --- Skrip Mobile Navigation Menu ---
+  const openMobileMenu = document.getElementById('open-mobile-menu');
+  const closeMobileMenu = document.getElementById('close-mobile-menu');
+  const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+  const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+  const mobileBtnMember = document.getElementById('mobile-btn-member-backend');
+
+  function setMobileMenu(open) {
+    if (!mobileMenuDrawer || !mobileMenuOverlay) return;
+    mobileMenuDrawer.classList.toggle('-translate-x-full', !open);
+    mobileMenuOverlay.classList.toggle('hidden', !open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  openMobileMenu?.addEventListener('click', () => setMobileMenu(true));
+  closeMobileMenu?.addEventListener('click', () => setMobileMenu(false));
+  mobileMenuOverlay?.addEventListener('click', () => setMobileMenu(false));
+
+  document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+    link.addEventListener('click', () => setMobileMenu(false));
+  });
+
   // --- Skrip Backend Interaksi (About Us & Join Member) ---
   const backendModal = document.getElementById('backend-modal');
   const closeBackendModal = document.getElementById('close-backend-modal');
@@ -192,8 +266,8 @@ const cartCount = getCartCount();
     }
   });
 
-  // 2. Tampilkan Form Join Member yang terhubung ke Backend POST API
-  btnMember?.addEventListener('click', () => {
+  // Helper function untuk menampilkan form Join Member
+  const showMemberForm = () => {
     openModal(`
       <h3 class="text-xl font-bold text-primary mb-2">Join Member Club 💖</h3>
       <p class="text-sm text-gray-600 mb-4">Daftar sekarang dan dapatkan voucher diskon spesial 10% langsung!</p>
@@ -210,7 +284,6 @@ const cartCount = getCartCount();
       </form>
     `);
 
-    // Handle submit form ke Backend API /api/join-member
     setTimeout(() => {
       const form = document.getElementById('member-form');
       form?.addEventListener('submit', async (e) => {
@@ -249,6 +322,12 @@ const cartCount = getCartCount();
         }
       });
     }, 50);
+  };
+
+  btnMember?.addEventListener('click', showMemberForm);
+  mobileBtnMember?.addEventListener('click', () => {
+    setMobileMenu(false);
+    showMemberForm();
   });
 </script>
 

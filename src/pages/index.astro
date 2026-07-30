@@ -129,10 +129,10 @@ const reviews = [
   <div class="w-[100vw] relative left-1/2 -translate-x-1/2 overflow-x-hidden">
 
     <!-- 1. HERO SECTION PINK -->
-    <section class="relative bg-[#F46B8D] text-white pt-40 pb-28 w-full overflow-hidden -mt-24">
+    <section class="relative bg-[#F46B8D] text-white pt-32 pb-20 md:pt-40 md:pb-28 w-full overflow-hidden -mt-24">
       
       <!-- BUNGA BANYAK DI SISI KIRI -->
-      <div class="absolute -left-8 bottom-[-20px] w-52 h-72 z-0 pointer-events-none transform -rotate-12">
+      <div class="absolute -left-8 bottom-[-20px] w-36 md:w-52 h-56 md:h-72 z-0 pointer-events-none transform -rotate-12 opacity-80 md:opacity-100">
         <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
           <path d="M 0 300 Q 80 200 120 100" stroke="#7CB342" stroke-width="8" stroke-linecap="round" />
           <path d="M 60 220 Q 20 180 30 140" stroke="#7CB342" stroke-width="6" stroke-linecap="round" />
@@ -153,7 +153,7 @@ const reviews = [
         </svg>
       </div>
 
-      <div class="absolute left-10 bottom-[-40px] w-44 h-60 z-0 pointer-events-none transform rotate-6 opacity-90">
+      <div class="hidden sm:block absolute left-10 bottom-[-40px] w-44 h-60 z-0 pointer-events-none transform rotate-6 opacity-90">
         <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
           <path d="M 0 300 Q 60 180 100 80" stroke="#7CB342" stroke-width="7" stroke-linecap="round" />
           <circle cx="100" cy="80" r="14" fill="#FFEB3B" />
@@ -165,7 +165,7 @@ const reviews = [
       </div>
 
       <!-- BUNGA BANYAK DI SISI KANAN -->
-      <div class="absolute -right-4 bottom-[-10px] w-44 h-64 z-0 pointer-events-none transform rotate-12">
+      <div class="absolute -right-4 bottom-[-10px] w-32 md:w-44 h-52 md:h-64 z-0 pointer-events-none transform rotate-12 opacity-80 md:opacity-100">
         <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
           <path d="M 200 300 Q 120 180 80 80" stroke="#7CB342" stroke-width="8" stroke-linecap="round" />
           <path d="M 120 180 C 80 160 100 120 140 140 Z" fill="#7CB342" />
@@ -178,23 +178,11 @@ const reviews = [
         </svg>
       </div>
 
-      <div class="absolute right-16 bottom-[-30px] w-40 h-56 z-0 pointer-events-none transform -rotate-6 opacity-90">
-        <svg viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-          <path d="M 200 300 Q 100 160 60 60" stroke="#7CB342" stroke-width="7" stroke-linecap="round" />
-          <circle cx="60" cy="60" r="12" fill="#FFC107" />
-          <circle cx="78" cy="78" r="12" fill="#FFC107" />
-          <circle cx="60" cy="94" r="12" fill="#FFC107" />
-          <circle cx="42" cy="78" r="12" fill="#FFC107" />
-          <circle cx="60" cy="78" r="8" fill="#FFFFFF" />
-        </svg>
-      </div>
-
       <!-- EFEK CAHAYA BINTANG BERSINAR -->
-      <div class="absolute top-28 left-24 w-6 h-6 sparkle-star z-10 pointer-events-none animate-sparkle-1"></div>
-      <div class="absolute top-44 left-14 w-4 h-4 sparkle-star z-10 pointer-events-none animate-sparkle-2"></div>
-      <div class="absolute bottom-20 left-32 w-7 h-7 sparkle-star z-10 pointer-events-none animate-sparkle-3"></div>
-      <div class="absolute top-36 right-28 w-6 h-6 sparkle-star z-10 pointer-events-none animate-sparkle-2"></div>
-      <div class="absolute bottom-28 right-20 w-5 h-5 sparkle-star z-10 pointer-events-none animate-sparkle-1"></div>
+      <div class="absolute top-28 left-8 sm:left-24 w-5 sm:w-6 h-5 sm:h-6 sparkle-star z-10 pointer-events-none animate-sparkle-1"></div>
+      <div class="absolute top-44 left-6 sm:left-14 w-4 h-4 sparkle-star z-10 pointer-events-none animate-sparkle-2"></div>
+      <div class="absolute bottom-20 left-12 sm:left-32 w-6 sm:w-7 h-6 sm:h-7 sparkle-star z-10 pointer-events-none animate-sparkle-3"></div>
+      <div class="absolute top-36 right-8 sm:right-28 w-5 sm:w-6 h-5 sm:h-6 sparkle-star z-10 pointer-events-none animate-sparkle-2"></div>
 
       <!-- BINGKAI OVAL KIRI KANAN -->
       <div class="hidden xl:block absolute left-[12%] top-1/2 -translate-y-1/2 z-10 pointer-events-none animate-float-left">
@@ -210,22 +198,22 @@ const reviews = [
       </div>
 
       <!-- Kontainer Teks Utama -->
-      <div class="w-full px-6 flex flex-col items-center relative z-20 max-w-3xl mx-auto">
-        <span class="bg-white/90 text-[#F46B8D] px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase mb-6 shadow-sm border-[2px] border-[#F46B8D]">
+      <div class="w-full px-4 sm:px-6 flex flex-col items-center relative z-20 max-w-3xl mx-auto text-center">
+        <span class="bg-white/90 text-[#F46B8D] px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase mb-4 sm:mb-6 shadow-sm border-[2px] border-[#F46B8D]">
           The Miracle of Charm
         </span>
         
-        <h4 class="font-serif italic text-3xl md:text-4xl mb-1 text-pink-100">TWICE</h4>
-        <h1 class="font-serif text-7xl md:text-9xl font-bold tracking-tight mb-6 text-center" style="font-family: 'Quicksand', sans-serif;">
+        <h4 class="font-serif italic text-2xl sm:text-3xl md:text-4xl mb-1 text-pink-100">TWICE</h4>
+        <h1 class="font-serif text-5xl sm:text-7xl md:text-9xl font-bold tracking-tight mb-4 sm:mb-6 text-center leading-none" style="font-family: 'Quicksand', sans-serif;">
           KEYCHAIN
         </h1>
         
-        <p class="max-w-xl mx-auto text-pink-100 font-medium mb-10 text-lg leading-relaxed text-center">
+        <p class="max-w-xl mx-auto text-pink-100 font-medium mb-8 sm:mb-10 text-base sm:text-lg leading-relaxed text-center px-2">
           Collect moments, not things starting with the cutest companion for your keys and bags. Clip on your new favorite obsession.
         </p>
 
-        <a href="/shop" class="bg-white text-[#F46B8D] font-bold px-10 py-4 rounded-full hover:scale-105 active:scale-95 transition-all shadow-[4px_4px_0_0_rgba(157,43,71,0.3)]">
-          Explore The Magic
+        <a href="/shop" class="bg-white text-[#F46B8D] font-bold px-8 sm:px-10 py-3.5 sm:py-4 rounded-full hover:scale-105 active:scale-95 transition-all shadow-[4px_4px_0_0_rgba(157,43,71,0.3)] text-sm sm:text-base">
+          Explore The Magic ✨
         </a>
       </div>
     </section>
